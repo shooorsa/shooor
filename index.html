@@ -29,7 +29,7 @@
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="text-3xl logo-font text-blue-900">شـــووور<span class="text-orange-500 text-sm block font-normal tracking-normal">Shooor</span></div>
             <div class="flex gap-2">
-                <a href="#customer-register" id="header-user-btn" class="bg-blue-100 text-blue-900 px-4 py-2 rounded-full text-xs font-bold">حسابي</a>
+                <a href="#customer-register" id="header-user-btn" class="bg-blue-100 text-blue-900 px-4 py-2 rounded-full text-xs font-bold transition-all">حسابي</a>
                 <a href="#join-expert" class="bg-blue-900 text-white px-4 py-2 rounded-full text-xs font-bold">انضم كخبير</a>
             </div>
         </div>
@@ -37,47 +37,46 @@
 
     <section class="py-20 px-6 bg-white text-center">
         <div class="max-w-3xl mx-auto">
-            <h1 class="text-5xl font-black mb-6 text-blue-900 leading-tight">ما خاب من <span class="text-orange-500 text-6xl font-black">استشار</span></h1>
+            <h1 class="text-5xl font-black mb-6 text-blue-900 leading-tight">ما خاب من <span class="text-orange-500 text-6xl">استشار</span></h1>
             <p class="text-xl text-slate-500 mb-10">ارتبط بخبراء السفر الحقيقيين وخذ الشور من مجرّب</p>
             <div class="flex flex-col md:flex-row gap-4 justify-center">
                 <a href="#experts" class="bg-blue-900 text-white px-10 py-4 rounded-2xl font-black text-lg shadow-xl active:scale-95 transition">تصفح الخبراء</a>
-                <a href="#customer-register" id="hero-auth-btn" class="bg-orange-500 text-white px-10 py-4 rounded-2xl font-black text-lg shadow-xl active:scale-95 transition">سجل دخولك الآن</a>
+                <a href="#customer-register" class="bg-orange-500 text-white px-10 py-4 rounded-2xl font-black text-lg shadow-xl active:scale-95 transition">سجل دخولك الآن</a>
             </div>
         </div>
     </section>
 
-    <section id="customer-register" class="py-16 bg-orange-50 px-6 text-right">
+    <section id="customer-register" class="py-16 bg-orange-50 px-6 text-right border-y border-orange-100">
         <div class="max-w-xl mx-auto bg-white p-10 rounded-[2.5rem] shadow-sm border border-orange-100">
             
             <div id="auth-container" class="text-center">
                 <h3 class="text-2xl font-black mb-2 text-blue-900">انضم إلى مجتمع شـــووور</h3>
-                <p class="text-slate-500 text-sm mb-8">سجل دخولك بضغطة زر لطلب استشاراتك وحفظ بياناتك</p>
-                
+                <p class="text-slate-500 text-sm mb-8 font-bold text-orange-600">سجل دخولك الآن لطلب الاستشارات</p>
                 <button onclick="loginWithGoogle()" class="w-full flex items-center justify-center gap-3 bg-white border-2 border-slate-200 py-4 rounded-2xl font-bold text-slate-700 hover:bg-slate-50 transition-all active:scale-95 shadow-sm">
                     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-6 h-6">
-                    التسجيل السريع عبر Google
+                    تسجيل الدخول عبر Google
                 </button>
             </div>
 
             <div id="user-profile" class="hidden text-center">
                 <div id="user-photo" class="w-24 h-24 rounded-full mx-auto border-4 border-orange-200 mb-4 bg-blue-50 flex items-center justify-center text-3xl overflow-hidden shadow-inner">👤</div>
-                <h3 id="user-name" class="text-2xl font-black text-blue-900">أهلاً بك</h3>
-                <p id="user-email" class="text-slate-500 mb-8 text-sm italic"></p>
+                <h3 id="user-name" class="text-2xl font-black text-blue-900">تحميل البيانات...</h3>
+                <p id="user-email" class="text-slate-400 mb-8 text-sm italic"></p>
                 
                 <div class="bg-slate-50 p-6 rounded-[2rem] mb-6 text-right border border-slate-100">
-                    <p class="text-sm text-blue-900 font-bold mb-3 border-b pb-2 text-center">لوحة التحكم</p>
+                    <p class="text-sm text-blue-900 font-bold mb-3 border-b pb-2 text-center">لوحة التحكم الخاصة بك</p>
                     <div class="space-y-3">
-                        <div class="flex justify-between items-center bg-white p-3 rounded-xl">
-                            <span class="text-xs text-slate-500">استشاراتك النشطة</span>
+                        <div class="flex justify-between items-center bg-white p-3 rounded-xl border border-slate-100">
+                            <span class="text-xs text-slate-500">الاستشارات النشطة</span>
                             <span class="text-xs font-bold text-orange-500">0</span>
                         </div>
-                        <div class="flex justify-between items-center bg-white p-3 rounded-xl">
+                        <div class="flex justify-between items-center bg-white p-3 rounded-xl border border-slate-100">
                             <span class="text-xs text-slate-500">رصيد الحساب</span>
                             <span class="text-xs font-bold text-green-600">0.00 ر.س</span>
                         </div>
                     </div>
                 </div>
-                <button onclick="handleSignOut()" class="text-red-500 text-xs font-bold hover:underline">تسجيل الخروج</button>
+                <button onclick="handleSignOut()" class="text-red-400 text-xs font-bold hover:text-red-600 transition-colors">تسجيل الخروج من الحساب</button>
             </div>
         </div>
     </section>
@@ -90,29 +89,10 @@
                     <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center text-2xl">👤</div>
                     <div><h4 class="font-bold">أحمد علي</h4><span class="text-[10px] bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full font-bold">خبير سويسرا</span></div>
                 </div>
-                <p class="text-sm text-slate-600 mb-6">"خبير في تخطيط القطارات والسكن الاقتصادي في إنترلاكن."</p>
-                <div class="border-t pt-4"><a href="https://wa.me/966506775662?text=طلب_استشارة_أحمد" class="text-sm font-bold text-orange-500">طلب استشارة ←</a></div>
+                <p class="text-sm text-slate-600 mb-6 italic">"خبير في تخطيط القطارات والسكن الاقتصادي."</p>
+                <div class="border-t pt-4"><a href="https://wa.me/966506775662" class="text-sm font-bold text-orange-500">طلب استشارة ←</a></div>
             </div>
-            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                <div class="flex items-center gap-4 mb-4">
-                    <div class="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center text-2xl">👤</div>
-                    <div><h4 class="font-bold">سارة م.</h4><span class="text-[10px] bg-green-100 text-green-600 px-2 py-0.5 rounded-full font-bold">خبيرة اليابان</span></div>
-                </div>
-                <p class="text-sm text-slate-600 mb-6">"أساعدك في استخراج الفيزا وترتيب جدول يومي في اليابان."</p>
-                <div class="border-t pt-4"><a href="https://wa.me/966506775662?text=طلب_استشارة_سارة" class="text-sm font-bold text-orange-500">طلب استشارة ←</a></div>
             </div>
-            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                <div class="flex items-center gap-4 mb-4">
-                    <div class="w-14 h-14 bg-purple-50 rounded-full flex items-center justify-center text-2xl">🇬🇧</div>
-                    <div><h4 class="font-bold">خالد محمد</h4><span class="text-[10px] bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full font-bold">خبير لندن</span></div>
-                </div>
-                <p class="text-sm text-slate-600 mb-6">"أصمم لك جدولك في لندن حسب ميزانيتك، وأعلمك أسرار التنقل."</p>
-                <div class="border-t pt-4 flex justify-between items-center">
-                    <a href="khaled.html" class="text-[11px] font-bold text-blue-900 underline">الملف الشخصي</a>
-                    <a href="khaled.html" class="text-sm font-bold text-orange-500">طلب استشارة ←</a>
-                </div>
-            </div>
-        </div>
     </section>
 
     <footer class="py-12 bg-white border-t text-center text-slate-400 text-sm">
@@ -123,70 +103,60 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 
     <script>
+        // إعدادات مشروعك كما في الصور
         const firebaseConfig = {
             apiKey: "AIzaSyAZSFCf7piwKykf_klgGlzc4RkCXumNRUg",
             authDomain: "shooor-app.firebaseapp.com",
             projectId: "shooor-app",
             storageBucket: "shooor-app.firebasestorage.app",
             messagingSenderId: "356426973132",
-            appId: "1:356426973132:web:6353917bf13a64074d6769",
-            measurementId: "G-4M4ZZ4Y46E"
+            appId: "1:356426973132:web:6353917bf13a64074d6769"
         };
         
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const provider = new firebase.auth.GoogleAuthProvider();
 
+        // حفظ حالة الدخول حتى عند إغلاق المتصفح
+        auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+        // تشغيل تسجيل الدخول
         function loginWithGoogle() {
             auth.signInWithRedirect(provider);
         }
 
-        // مراقبة حالة المستخدم بشكل حيّ
+        // مراقبة حالة المستخدم (هذا هو العقل المدبر للكود)
         auth.onAuthStateChanged((user) => {
             const authContainer = document.getElementById('auth-container');
             const userProfile = document.getElementById('user-profile');
             const headerBtn = document.getElementById('header-user-btn');
-            const heroBtn = document.getElementById('hero-auth-btn');
-            
-            if (user) {
-                // إذا كان مسجل دخول:
-                authContainer.classList.add('hidden');
-                userProfile.classList.remove('hidden');
-                
-                // تغيير اسم الزر في الأعلى وفي الهيرو
-                headerBtn.innerText = "ملفي الشخصي";
-                headerBtn.classList.replace('bg-blue-100', 'bg-orange-100');
-                headerBtn.classList.replace('text-blue-900', 'text-orange-600');
-                
-                if(heroBtn) heroBtn.innerText = "أهلاً بك، " + user.displayName.split(' ')[0];
 
-                // عرض بيانات المستخدم في البطاقة
+            if (user) {
+                // العميل دخل بنجاح
+                if(authContainer) authContainer.classList.add('hidden');
+                if(userProfile) userProfile.classList.remove('hidden');
+                if(headerBtn) {
+                    headerBtn.innerText = "ملفي الشخصي";
+                    headerBtn.classList.replace('bg-blue-100', 'bg-orange-100');
+                    headerBtn.classList.replace('text-blue-900', 'text-orange-600');
+                }
+                
                 document.getElementById('user-name').innerText = "أهلاً، " + user.displayName;
                 document.getElementById('user-email').innerText = user.email;
                 if(user.photoURL) {
                     document.getElementById('user-photo').innerHTML = `<img src="${user.photoURL}" class="w-full h-full object-cover">`;
                 }
             } else {
-                // إذا لم يسجل دخول:
-                authContainer.classList.remove('hidden');
-                userProfile.classList.add('hidden');
-                headerBtn.innerText = "حسابي";
-                if(heroBtn) heroBtn.innerText = "سجل دخولك الآن";
+                // العميل غير مسجل دخول
+                if(authContainer) authContainer.classList.remove('hidden');
+                if(userProfile) userProfile.classList.add('hidden');
             }
         });
 
-        // التقاط نتيجة الـ Redirect عند العودة من جوجل
-        auth.getRedirectResult().then((result) => {
-            if (result.user) {
-                console.log("تم تسجيل الدخول بنجاح!");
-            }
-        }).catch((error) => {
-            console.error("خطأ في الدخول:", error.message);
-        });
-
+        // تسجيل الخروج
         function handleSignOut() {
             auth.signOut().then(() => {
-                window.location.reload(); // تحديث الصفحة عند الخروج
+                window.location.reload();
             });
         }
     </script>
