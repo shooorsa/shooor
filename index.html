@@ -37,7 +37,7 @@
 
     <section class="py-20 px-6 bg-white text-center">
         <div class="max-w-3xl mx-auto">
-            <h1 class="text-5xl font-black mb-6 leading-tight text-blue-900">ما خاب من <span class="text-orange-500 text-6xl font-black">استشار</span></h1>
+            <h1 class="text-5xl font-black mb-6 leading-tight text-blue-900">ما خاب من <span class="text-orange-500 text-6xl">استشار</span></h1>
             <p class="text-xl text-slate-500 mb-10">ارتبط بخبراء السفر الحقيقيين وخذ "الشور" من مجرّب بضغطة زر</p>
             <div class="flex flex-col md:flex-row gap-4 justify-center">
                 <a href="#experts" class="bg-blue-900 text-white px-10 py-4 rounded-2xl font-black text-lg shadow-xl shadow-blue-200 active:scale-95 transition">تصفح الخبراء</a>
@@ -57,8 +57,6 @@
                     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-6 h-6">
                     التسجيل السريع عبر Google
                 </button>
-                
-                <p class="text-[10px] text-slate-400 mt-6 leading-relaxed italic">التسجيل عبر قوقل يضمن لنا أنك مستخدم حقيقي لضمان جودة الخدمة</p>
             </div>
 
             <div id="user-profile" class="hidden text-center">
@@ -67,7 +65,7 @@
                 <p id="user-email" class="text-slate-500 mb-8 text-sm italic"></p>
                 
                 <div class="bg-slate-50 p-6 rounded-[2rem] mb-6 text-right border border-slate-100">
-                    <p class="text-sm text-blue-900 font-bold mb-3 border-b pb-2">لوحة التحكم الخاصة بك:</p>
+                    <p class="text-sm text-blue-900 font-bold mb-3 border-b pb-2 text-center">لوحة التحكم</p>
                     <div class="space-y-3">
                         <div class="flex justify-between items-center bg-white p-3 rounded-xl">
                             <span class="text-xs text-slate-500">استشاراتك النشطة</span>
@@ -80,7 +78,7 @@
                     </div>
                 </div>
                 
-                <button onclick="handleSignOut()" class="text-red-500 text-xs font-bold hover:underline">تسجيل الخروج من الحساب</button>
+                <button onclick="handleSignOut()" class="text-red-500 text-xs font-bold hover:underline">تسجيل الخروج</button>
             </div>
         </div>
     </section>
@@ -114,4 +112,68 @@
                 <div>
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-14 h-14 bg-purple-50 rounded-full flex items-center justify-center text-2xl">🇬🇧</div>
-                        <div><h4 class="font-bold">خ
+                        <div><h4 class="font-bold">خالد محمد</h4><span class="text-[10px] bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full font-bold">خبير لندن</span></div>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-6 leading-relaxed">"أصمم لك جدولك في لندن حسب ميزانيتك، وأعلمك أسرار التنقل."</p>
+                </div>
+                <div class="border-t pt-4 flex justify-between items-center">
+                    <a href="khaled.html" class="text-[11px] font-bold text-blue-900 underline">الملف الشخصي</a>
+                    <a href="khaled.html" class="text-sm font-bold text-orange-500 hover:mr-2 transition-all">طلب استشارة ←</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 bg-white border-t text-center text-slate-400 text-sm">
+        <p>&copy; 2025 شـــووور - Shooor | جميع الحقوق محفوظة</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+    <script>
+        // بيانات مشروعك الفعلي في Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAZSFCf7piwKykf_klgGlzc4RkCXumNRUg",
+            authDomain: "shooor-app.firebaseapp.com",
+            projectId: "shooor-app",
+            storageBucket: "shooor-app.firebasestorage.app",
+            messagingSenderId: "356426973132",
+            appId: "1:356426973132:web:6353917bf13a64074d6769",
+            measurementId: "G-4M4ZZ4Y46E"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const provider = new firebase.auth.GoogleAuthProvider();
+
+        function loginWithGoogle() {
+            auth.signInWithPopup(provider).catch((error) => {
+                alert("حدث خطأ: " + error.message);
+            });
+        }
+
+        auth.onAuthStateChanged((user) => {
+            const authContainer = document.getElementById('auth-container');
+            const userProfile = document.getElementById('user-profile');
+            
+            if (user) {
+                authContainer.classList.add('hidden');
+                userProfile.classList.remove('hidden');
+                document.getElementById('user-name').innerText = "أهلاً، " + user.displayName;
+                document.getElementById('user-email').innerText = user.email;
+                if(user.photoURL) {
+                    document.getElementById('user-photo').innerHTML = `<img src="${user.photoURL}" class="w-full h-full object-cover">`;
+                }
+            } else {
+                authContainer.classList.remove('hidden');
+                userProfile.classList.add('hidden');
+            }
+        });
+
+        function handleSignOut() {
+            auth.signOut();
+        }
+    </script>
+</body>
+</html>
