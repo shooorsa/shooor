@@ -148,10 +148,8 @@
         const provider = new firebase.auth.GoogleAuthProvider();
 
         function loginWithGoogle() {
-            auth.signInWithPopup(provider).catch((error) => {
-                alert("حدث خطأ: " + error.message);
-            });
-        }
+    auth.signInWithRedirect(provider);
+}
 
         auth.onAuthStateChanged((user) => {
             const authContainer = document.getElementById('auth-container');
