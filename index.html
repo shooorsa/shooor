@@ -27,7 +27,7 @@
 
     <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-slate-200">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-3xl logo-font text-blue-900">شـــووور<span class="text-orange-500 text-sm block font-normal tracking-normal">Shooor</span></div>
+            <div class="text-3xl logo-font text-blue-900">شـــووور<span class="text-orange-500 text-sm block font-normal tracking-normal text-center">Shooor</span></div>
             <div class="flex gap-2">
                 <a href="#customer-register" id="header-user-btn" class="bg-blue-100 text-blue-900 px-4 py-2 rounded-full text-xs font-bold transition-all">حسابي</a>
                 <a href="#join-expert" class="bg-blue-900 text-white px-4 py-2 rounded-full text-xs font-bold">انضم كخبير</a>
@@ -51,28 +51,51 @@
             
             <div id="auth-container" class="text-center">
                 <h3 class="text-2xl font-black mb-2 text-blue-900">انضم إلى مجتمع شـــووور</h3>
-                <p class="text-slate-500 text-sm mb-8 font-bold text-orange-600">سجل دخولك الآن لطلب الاستشارات</p>
-                <button onclick="loginWithGoogle()" class="w-full flex items-center justify-center gap-3 bg-white border-2 border-slate-200 py-4 rounded-2xl font-bold text-slate-700 hover:bg-slate-50 transition-all active:scale-95 shadow-sm">
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-6 h-6">
-                    تسجيل الدخول عبر Google
-                </button>
+                <p class="text-slate-500 text-sm mb-8 font-bold text-orange-600">سجل دخولك لطلب الاستشارات</p>
+                
+                <div id="auth-options">
+                    <button onclick="loginWithGoogle()" class="w-full flex items-center justify-center gap-3 bg-white border-2 border-slate-100 py-4 rounded-2xl font-bold text-slate-700 hover:bg-slate-50 mb-4 transition-all shadow-sm">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-6 h-6">
+                        الدخول السريع عبر Google
+                    </button>
+
+                    <div class="relative py-4">
+                        <span class="bg-white px-4 text-slate-400 text-xs relative z-10">أو سجل بالجوال والاسم</span>
+                        <hr class="absolute top-1/2 w-full border-slate-100">
+                    </div>
+
+                    <div class="space-y-4 text-right">
+                        <input type="text" id="user-name-input" placeholder="الاسم الكامل" class="w-full p-4 bg-slate-50 rounded-2xl border-none focus:ring-2 focus:ring-orange-500 text-right">
+                        <div class="flex gap-2">
+                            <input type="tel" id="phone-input" placeholder="5xxxxxxxx" class="w-full p-4 bg-slate-50 rounded-2xl border-none focus:ring-2 focus:ring-orange-500 text-left" dir="ltr">
+                            <span class="bg-slate-100 p-4 rounded-2xl font-bold text-slate-500 flex items-center">+966</span>
+                        </div>
+                        <button onclick="setupRecaptcha()" id="send-code-btn" class="w-full bg-blue-900 text-white py-4 rounded-2xl font-black shadow-lg">إرسال كود التحقق</button>
+                    </div>
+                </div>
+
+                <div id="otp-section" class="hidden space-y-4">
+                    <p class="text-sm font-bold text-orange-600">أدخل الرمز المكون من 6 أرقام</p>
+                    <input type="text" id="otp-input" placeholder="- - - - - -" class="w-full p-4 bg-slate-50 rounded-2xl border-none text-center text-2xl tracking-[0.5rem] focus:ring-2 focus:ring-orange-500">
+                    <button onclick="verifyCode()" class="w-full bg-orange-500 text-white py-4 rounded-2xl font-black shadow-lg">تأكيد الرمز والدخول</button>
+                    <button onclick="window.location.reload()" class="text-xs text-slate-400 underline">رجوع لتغيير الرقم</button>
+                </div>
+                <div id="recaptcha-container"></div>
             </div>
 
             <div id="user-profile" class="hidden text-center">
                 <div id="user-photo" class="w-24 h-24 rounded-full mx-auto border-4 border-orange-200 mb-4 bg-blue-50 flex items-center justify-center text-3xl overflow-hidden shadow-inner">👤</div>
-                <h3 id="user-name" class="text-2xl font-black text-blue-900">أهلاً بك</h3>
-                <p id="user-email" class="text-slate-400 mb-8 text-sm italic"></p>
+                <h3 id="display-name" class="text-2xl font-black text-blue-900">أهلاً بك</h3>
+                <p id="display-phone" class="text-slate-400 mb-8 text-sm italic"></p>
+                
                 <div class="bg-slate-50 p-6 rounded-[2rem] mb-6 text-right border border-slate-100">
-                    <p class="text-sm text-blue-900 font-bold mb-3 border-b pb-2 text-center">لوحة التحكم</p>
+                    <p class="text-sm text-blue-900 font-bold mb-3 border-b pb-2 text-center">المحفظة الرقمية</p>
                     <div class="space-y-3">
                         <div class="flex justify-between items-center bg-white p-3 rounded-xl border border-slate-100">
-                            <span class="text-xs text-slate-500">الاستشارات النشطة</span>
-                            <span class="text-xs font-bold text-orange-500">0</span>
+                            <span class="text-xs text-slate-500">رصيد الحساب الحالي</span>
+                            <span class="text-lg font-black text-green-600">0.00 ر.س</span>
                         </div>
-                        <div class="flex justify-between items-center bg-white p-3 rounded-xl border border-slate-100">
-                            <span class="text-xs text-slate-500">رصيد الحساب</span>
-                            <span class="text-xs font-bold text-green-600">0.00 ر.س</span>
-                        </div>
+                        <button class="w-full bg-blue-900 text-white py-3 rounded-xl text-xs font-black shadow-md hover:bg-blue-800 transition">+ شحن الرصيد</button>
                     </div>
                 </div>
                 <button onclick="handleSignOut()" class="text-red-400 text-xs font-bold hover:text-red-600 transition-colors">تسجيل الخروج</button>
@@ -99,14 +122,6 @@
                 <p class="text-sm text-slate-600 mb-6 italic">"أساعدك في استخراج الفيزا وترتيب الجدول اليومي."</p>
                 <div class="border-t pt-4"><a href="https://wa.me/966506775662" class="text-sm font-bold text-orange-500">طلب استشارة ←</a></div>
             </div>
-            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                <div class="flex items-center gap-4 mb-4">
-                    <div class="w-14 h-14 bg-purple-50 rounded-full flex items-center justify-center text-2xl">🇬🇧</div>
-                    <div><h4 class="font-bold">خالد محمد</h4><span class="text-[10px] bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full font-bold">خبير لندن</span></div>
-                </div>
-                <p class="text-sm text-slate-600 mb-6 italic">"أصمم لك جدولك في لندن حسب ميزانيتك."</p>
-                <div class="border-t pt-4"><a href="https://wa.me/966506775662" class="text-sm font-bold text-orange-500">طلب استشارة ←</a></div>
-            </div>
         </div>
     </section>
 
@@ -118,7 +133,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 
     <script>
-        // إعدادات Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyAZSFCf7piwKykf_klgGlzc4RkCXumNRUg",
             authDomain: "shooor-app.firebaseapp.com",
@@ -127,55 +141,71 @@
             messagingSenderId: "356426973132",
             appId: "1:356426973132:web:6353917bf13a64074d6769"
         };
-        
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const provider = new firebase.auth.GoogleAuthProvider();
+        let confirmationResult;
 
-        // 1. استخدام Popup لحل مشكلة "الرجوع دون تسجيل"
-        function loginWithGoogle() {
-            auth.signInWithPopup(provider).then((result) => {
-                console.log("نجح الدخول");
-            }).catch((error) => {
-                console.error("خطأ:", error.message);
-                auth.signInWithRedirect(provider); // حل بديل إذا تم حظر الـ Popup
-            });
+        // 1. إعداد الـ Recaptcha المخفي
+        function setupRecaptcha() {
+            if(!window.recaptchaVerifier) {
+                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                    'size': 'invisible'
+                });
+            }
+            sendOTP();
         }
 
-        // 2. مراقبة الحالة وتغيير الواجهة
-        auth.onAuthStateChanged((user) => {
-            const authContainer = document.getElementById('auth-container');
-            const userProfile = document.getElementById('user-profile');
-            const headerBtn = document.getElementById('header-user-btn');
-            const heroBtn = document.getElementById('hero-cta-btn');
+        // 2. إرسال الكود
+        function sendOTP() {
+            const phoneNumber = "+966" + document.getElementById('phone-input').value;
+            const appVerifier = window.recaptchaVerifier;
 
-            if (user) {
-                if(authContainer) authContainer.classList.add('hidden');
-                if(userProfile) userProfile.classList.remove('hidden');
-                
-                if(headerBtn) {
-                    headerBtn.innerText = "ملفي الشخصي";
-                    headerBtn.classList.replace('bg-blue-100', 'bg-orange-100');
-                    headerBtn.classList.replace('text-blue-900', 'text-orange-600');
+            auth.signInWithPhoneNumber(phoneNumber, appVerifier)
+                .then((result) => {
+                    confirmationResult = result;
+                    document.getElementById('auth-options').classList.add('hidden');
+                    document.getElementById('otp-section').classList.remove('hidden');
+                }).catch((error) => {
+                    alert("خطأ: تأكد من صحة الرقم أو تفعيله في Firebase");
+                });
+        }
+
+        // 3. تأكيد الكود وحفظ الاسم
+        function verifyCode() {
+            const code = document.getElementById('otp-input').value;
+            const name = document.getElementById('user-name-input').value;
+
+            confirmationResult.confirm(code).then((result) => {
+                if(name) {
+                    result.user.updateProfile({ displayName: name }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    location.reload();
                 }
-                
-                if(heroBtn) heroBtn.innerText = "أهلاً بك، " + user.displayName.split(' ')[0];
+            }).catch(() => alert("الرمز غير صحيح"));
+        }
 
-                document.getElementById('user-name').innerText = user.displayName;
-                document.getElementById('user-email').innerText = user.email;
+        function loginWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider);
+        }
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                document.getElementById('auth-container').classList.add('hidden');
+                document.getElementById('user-profile').classList.remove('hidden');
+                document.getElementById('header-user-btn').innerText = "ملفي الشخصي";
+                document.getElementById('display-name').innerText = "أهلاً، " + (user.displayName || "يا بطل");
+                document.getElementById('display-phone').innerText = user.phoneNumber || user.email;
                 if(user.photoURL) {
                     document.getElementById('user-photo').innerHTML = `<img src="${user.photoURL}" class="w-full h-full object-cover">`;
                 }
-            } else {
-                if(authContainer) authContainer.classList.remove('hidden');
-                if(userProfile) userProfile.classList.add('hidden');
-                if(headerBtn) headerBtn.innerText = "حسابي";
-                if(heroBtn) heroBtn.innerText = "سجل دخولك الآن";
             }
         });
 
         function handleSignOut() {
-            auth.signOut().then(() => { window.location.reload(); });
+            auth.signOut().then(() => location.reload());
         }
     </script>
 </body>
