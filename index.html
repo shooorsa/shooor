@@ -69,88 +69,64 @@
     </section>
 
     <section id="experts-list" class="px-6 py-4 max-w-6xl mx-auto space-y-4 text-right">
-        </section>
+    <h3 id="list-header" class="font-black text-slate-400 text-xs mb-4 uppercase tracking-widest">خبراء مقترحون لك:</h3>
+    <div id="results-container" class="space-y-4">
+        </div>
+</section>
 
-    <footer class="py-12 bg-white text-center text-slate-300 text-[10px] font-black tracking-[0.2em] uppercase border-t mt-20">
-        <p>&copy; 2025 شـــووور - Shooor</p>
-    </footer>
+<script>
+    // نفس مصفوفة الخبراء السابقة...
+    const allExperts = [
+        { id: 'khaled', name: 'خالد محمد', category: 'travel', tags: ['لندن', 'بريطانيا', 'قطارات'], icon: '🇬🇧' },
+        { id: 'turkey_expert', name: 'أحمد العلي', category: 'travel', tags: ['تركيا', 'اسطنبول', 'أسواق'], icon: '🇹🇷' },
+        { id: 'sara_psy', name: 'سارة أ.', category: 'psychology', tags: ['قلق', 'تعافي', 'نفسية'], icon: '🌱' }
+    ];
 
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    // دالة لعرض الخبراء فور تحميل الصفحة
+    window.onload = () => {
+        displayExperts(allExperts); 
+    };
 
-    <script>
-        // --- إخفاء المفاتيح برمجياً لتقليل تنبيهات GitHub ---
-        const _keys = {
-            a: "AIzaSyAZSFCf7piwKykf",
-            b: "_klgGlzc4RkCXumNRUg"
-        };
-        
-        const firebaseConfig = {
-            apiKey: _keys.a + btoa("").replace("=", "") + _keys.b, 
-            authDomain: "shooor-app.firebaseapp.com",
-            projectId: "shooor-app",
-            storageBucket: "shooor-app.firebasestorage.app",
-            messagingSenderId: "356426973132",
-            appId: "1:356426973132:web:6353917bf13a64074d6769"
-        };
-        firebase.initializeApp(firebaseConfig);
-
-        // مصفوفة الخبراء (سيتم ربطها بـ Admin Panel لاحقاً)
-        const allExperts = [
-            { id: 'khaled', name: 'خالد محمد', category: 'travel', tags: ['لندن', 'بريطانيا', 'قطارات'], icon: '🇬🇧' },
-            { id: 'turkey_expert', name: 'أحمد العلي', category: 'travel', tags: ['تركيا', 'اسطنبول', 'أسواق'], icon: '🇹🇷' },
-            { id: 'sara_psy', name: 'سارة أ.', category: 'psychology', tags: ['قلق', 'تعافي', 'نفسية'], icon: '🌱' }
-        ];
-
-        let currentCategory = '';
-
-        function openCategory(catId, catName) {
-            currentCategory = catId;
-            document.getElementById('category-title').innerText = `البحث في ${catName}`;
-            document.getElementById('search-section').classList.remove('hidden');
-            filterExperts();
-            document.getElementById('search-section').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function closeSearch() {
-            document.getElementById('search-section').classList.add('hidden');
-            document.getElementById('experts-list').innerHTML = '';
-        }
-
-        function filterExperts() {
-            const query = document.getElementById('expertSearch').value.toLowerCase();
-            const container = document.getElementById('experts-list');
-            container.innerHTML = '';
-
-            const filtered = allExperts.filter(exp => {
-                const matchesCategory = exp.category === currentCategory;
-                const matchesSearch = exp.name.toLowerCase().includes(query) || 
-                                    exp.tags.some(t => t.toLowerCase().includes(query));
-                return matchesCategory && matchesSearch;
-            });
-
-            if (filtered.length === 0) {
-                container.innerHTML = '<p class="text-center text-slate-400 font-bold py-10">لا يوجد خبراء في هذا القسم حالياً..</p>';
-                return;
-            }
-
-            filtered.forEach(exp => {
-                container.innerHTML += `
-                    <div onclick="window.location.href='expert.html?id=${exp.id}'" class="bg-white p-6 rounded-[2.5rem] shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:border-blue-900 transition-all group">
-                        <div class="flex items-center gap-4">
-                            <div class="text-3xl bg-slate-50 w-16 h-16 flex items-center justify-center rounded-3xl group-hover:bg-blue-50 transition-colors">${exp.icon}</div>
-                            <div>
-                                <h4 class="font-black text-blue-900">${exp.name}</h4>
-                                <div class="flex gap-1 mt-1">
-                                    ${exp.tags.map(t => `<span class="text-[9px] bg-orange-50 text-orange-600 px-2 py-0.5 rounded-full font-black">#${t}</span>`).join('')}
-                                </div>
+    function displayExperts(list) {
+        const container = document.getElementById('results-container');
+        container.innerHTML = '';
+        list.forEach(exp => {
+            container.innerHTML += `
+                <div onclick="window.location.href='expert.html?id=${exp.id}'" class="bg-white p-6 rounded-[2.5rem] shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:border-blue-900 transition-all group">
+                    <div class="flex items-center gap-4">
+                        <div class="text-3xl bg-slate-50 w-16 h-16 flex items-center justify-center rounded-3xl group-hover:bg-blue-50 transition-colors">${exp.icon}</div>
+                        <div>
+                            <h4 class="font-black text-blue-900">${exp.name}</h4>
+                            <div class="flex gap-1 mt-1">
+                                ${exp.tags.map(t => `<span class="text-[9px] bg-orange-50 text-orange-600 px-2 py-0.5 rounded-full font-black">#${t}</span>`).join('')}
                             </div>
                         </div>
-                        <div class="text-blue-900 opacity-20 group-hover:opacity-100 transition-opacity">◀</div>
                     </div>
-                `;
-            });
-        }
-    </script>
+                    <div class="text-blue-900 opacity-20 group-hover:opacity-100 transition-opacity">◀</div>
+                </div>
+            `;
+        });
+    }
+
+    function openCategory(catId, catName) {
+        currentCategory = catId;
+        document.getElementById('list-header').innerText = `نتائج البحث في ${catName}:`;
+        document.getElementById('search-section').classList.remove('hidden');
+        filterExperts();
+        document.getElementById('search-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // تعديل دالة الفلترة لتعمل مع الحاوية الجديدة
+    function filterExperts() {
+        const query = document.getElementById('expertSearch').value.toLowerCase();
+        const filtered = allExperts.filter(exp => {
+            const matchesCategory = exp.category === currentCategory;
+            const matchesSearch = exp.name.toLowerCase().includes(query) || 
+                                exp.tags.some(t => t.toLowerCase().includes(query));
+            return matchesCategory && matchesSearch;
+        });
+        displayExperts(filtered);
+    }
+</script>
 </body>
 </html>
