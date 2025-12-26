@@ -40,18 +40,22 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.06 3.973L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.308-.888l-.237-.141-2.454.644.654-2.388-.155-.247a6.554 6.554 0 0 1-1.007-3.411c0-3.611 2.946-6.558 6.56-6.558a6.554 6.554 0 0 1 4.634 1.916 6.554 6.554 0 0 1 1.916 4.636c0 3.611-2.946 6.558-6.56 6.558zm3.457-4.687c-.19-.094-.121-.219-.459-.391-.338-.172-1.996-.984-2.305-1.094-.308-.11-.534-.164-.758.172-.224.336-.866 1.094-1.062 1.312-.196.219-.391.246-.729.078-.338-.171-1.428-.526-2.72-1.678-1.004-.897-1.682-2.007-1.879-2.344-.196-.337-.021-.519.148-.687.151-.151.338-.391.507-.586.173-.195.23-.336.345-.562.115-.225.058-.422-.029-.594-.087-.172-.758-1.828-1.04-2.508-.273-.664-.55-.574-.758-.585-.208-.01-.447-.01-.687-.01-.24 0-.631.09-1.002.504-.37.414-1.413 1.383-1.413 3.369 0 1.986 1.446 3.905 1.643 4.172.197.269 2.847 4.346 6.901 6.101.965.417 1.718.667 2.306.855.97.308 1.853.264 2.552.159.78-.117 2.305-.941 2.63-1.851.324-.91.324-1.688.227-1.852-.097-.164-.356-.258-.546-.352z"/></svg>
     </a>
 
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b">
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-slate-200">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-3xl logo-font text-blue-900">شـــووور</div>
-            <div class="flex gap-2">
-                <a href="#customer-register" id="header-user-btn" class="bg-blue-100 text-blue-900 px-4 py-2 rounded-full text-xs font-bold">حسابي</a>
+            <div class="flex flex-col items-center">
+                <div class="text-3xl logo-font text-blue-900 leading-none">شـــووور</div>
+                <div class="text-[10px] font-bold text-orange-500 tracking-[0.2em] uppercase">Shooor</div>
+            </div>
+            <div class="flex gap-3">
+                <a href="#customer-register" id="header-user-btn" class="bg-blue-50 text-blue-900 px-5 py-2 rounded-full text-xs font-black hover:bg-blue-100 transition-all">حسابي</a>
+                <a href="https://wa.me/966506775662?text=أريد الانضمام كخبير" class="bg-blue-900 text-white px-5 py-2 rounded-full text-xs font-black shadow-md hover:bg-blue-800 transition-all">انضم كخبير</a>
             </div>
         </div>
     </header>
 
-    <section class="py-16 px-6 text-center">
+    <section class="py-16 px-6 text-center bg-white">
         <h1 class="text-5xl font-black mb-6 text-blue-900 leading-tight">ما خاب من <span class="text-orange-500">استشار</span></h1>
-        <p class="text-xl text-slate-500 mb-10">منصة الاستشارات الشمولية.. خذ الشور من أهل الخبرة</p>
+        <p class="text-xl text-slate-500 mb-10">المنصة الشمولية لاستشارات السفر، الأعمال، والمشتريات</p>
     </section>
 
     <section class="py-8 px-6">
@@ -74,45 +78,53 @@
                 </div>
                 <div class="category-card group bg-orange-50 p-8 rounded-[2.5rem] border border-orange-100 text-center hover:bg-orange-600 transition-all cursor-pointer">
                     <div class="text-4xl mb-4 group-hover:scale-110 transition-transform">🛍️</div>
-                    <h3 class="font-black text-orange-900 transition-colors">المشتريات</h3>
+                    <h3 class="font-black text-orange-900 transition-colors">مشتريات</h3>
                     <p class="text-[10px] text-orange-400 mt-2 font-bold transition-colors">سيارات، عقار، وتقنية</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="customer-register" class="py-16 bg-slate-100 px-6 text-right">
+    <section id="customer-register" class="py-16 bg-slate-100 px-6 text-right border-y border-slate-200">
         <div class="max-w-xl mx-auto bg-white p-10 rounded-[3rem] shadow-sm border border-slate-200">
             <div id="auth-container" class="text-center">
                 <h3 class="text-2xl font-black mb-8 text-blue-900">سجل دخولك الآن</h3>
                 <div id="auth-options" class="space-y-4">
-                    <button onclick="loginWithGoogle()" class="w-full flex items-center justify-center gap-3 bg-white border py-4 rounded-2xl font-bold">
+                    <button onclick="loginWithGoogle()" class="w-full flex items-center justify-center gap-3 bg-white border py-4 rounded-2xl font-bold hover:bg-slate-50 transition">
                         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-6 h-6"> الدخول عبر Google
                     </button>
-                    <div class="py-2 text-slate-400 text-xs">أو بالجوال</div>
-                    <input type="text" id="user-name-input" placeholder="الاسم الكامل" class="w-full p-4 bg-slate-50 rounded-2xl text-right">
-                    <input type="tel" id="phone-input" placeholder="5xxxxxxxx" class="w-full p-4 bg-slate-50 rounded-2xl text-left" dir="ltr">
-                    <button onclick="setupRecaptcha()" class="w-full bg-blue-900 text-white py-4 rounded-2xl font-black">إرسال الكود</button>
+                    <div class="py-2 text-slate-400 text-[10px] font-bold uppercase tracking-widest">أو عبر الجوال</div>
+                    <input type="text" id="user-name-input" placeholder="الاسم الكامل" class="w-full p-4 bg-slate-50 rounded-2xl text-right focus:ring-2 focus:ring-blue-500 outline-none">
+                    <div class="flex gap-2">
+                        <input type="tel" id="phone-input" placeholder="5xxxxxxxx" class="w-full p-4 bg-slate-50 rounded-2xl text-left outline-none" dir="ltr">
+                        <span class="bg-slate-100 p-4 rounded-2xl font-bold text-slate-400 text-sm flex items-center">+966</span>
+                    </div>
+                    <button onclick="setupRecaptcha()" class="w-full bg-blue-900 text-white py-4 rounded-2xl font-black shadow-lg">إرسال كود التحقق</button>
                 </div>
                 <div id="otp-section" class="hidden space-y-4">
-                    <input type="text" id="otp-input" placeholder="أدخل الرمز" class="w-full p-4 bg-slate-50 rounded-2xl text-center text-2xl tracking-widest">
-                    <button onclick="verifyCode()" class="w-full bg-orange-500 text-white py-4 rounded-2xl font-black">تأكيد</button>
+                    <input type="text" id="otp-input" placeholder="أدخل الرمز" class="w-full p-4 bg-slate-50 rounded-2xl text-center text-2xl tracking-[0.5em] font-black">
+                    <button onclick="verifyCode()" class="w-full bg-orange-500 text-white py-4 rounded-2xl font-black shadow-lg">تأكيد الرمز</button>
                 </div>
                 <div id="recaptcha-container"></div>
             </div>
 
             <div id="user-profile" class="hidden text-center">
-                <div id="user-photo" class="w-20 h-20 rounded-full mx-auto mb-4 bg-blue-50 flex items-center justify-center text-2xl">👤</div>
-                <h3 id="display-name" class="text-xl font-black mb-6">...</h3>
-                <div class="bg-slate-900 p-8 rounded-[2rem] text-right text-white shadow-xl">
-                    <p class="text-blue-400 text-xs mb-1">الرصيد المتاح</p>
-                    <h2 class="text-4xl font-black mb-6">0.00 <span class="text-sm font-normal text-slate-400 tracking-normal">ر.س</span></h2>
-                    <button onclick="openRechargeModal()" class="w-full bg-orange-500 text-white py-4 rounded-2xl font-black shadow-lg hover:bg-orange-600 transition-all">شحن المحفظة</button>
+                <div id="user-photo" class="w-20 h-20 rounded-full mx-auto mb-4 bg-blue-50 flex items-center justify-center text-2xl overflow-hidden border-2 border-slate-100 shadow-inner">👤</div>
+                <h3 id="display-name" class="text-xl font-black mb-6 text-blue-900">...</h3>
+                <div class="bg-slate-900 p-8 rounded-[2rem] text-right text-white shadow-2xl relative overflow-hidden">
+                    <div class="absolute -top-10 -right-10 w-24 h-24 bg-blue-500/10 rounded-full"></div>
+                    <p class="text-blue-400 text-[10px] font-bold mb-1 uppercase tracking-widest">الرصيد المتاح</p>
+                    <h2 class="text-4xl font-black mb-6">0.00 <span class="text-xs font-normal text-slate-500">ر.س</span></h2>
+                    <button onclick="openRechargeModal()" class="w-full bg-orange-500 text-white py-4 rounded-2xl font-black shadow-lg hover:bg-orange-600 transition-all">+ شحن المحفظة</button>
                 </div>
-                <button onclick="handleSignOut()" class="mt-6 text-red-400 text-xs font-bold">تسجيل الخروج</button>
+                <button onclick="handleSignOut()" class="mt-8 text-red-400 text-[10px] font-bold uppercase tracking-[0.2em] hover:text-red-600 transition">تسجيل الخروج</button>
             </div>
         </div>
     </section>
+
+    <footer class="py-12 bg-white text-center text-slate-400 text-[10px] font-bold tracking-widest uppercase border-t">
+        <p>&copy; 2025 شـــووور - Shooor | جميع الحقوق محفوظة</p>
+    </footer>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
@@ -131,16 +143,25 @@
 
         function openRechargeModal() { document.getElementById('recharge-modal').style.display = 'flex'; }
         function closeRechargeModal() { document.getElementById('recharge-modal').style.display = 'none'; }
+        
         function setupRecaptcha() {
-            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {'size': 'invisible'});
+            if(!window.recaptchaVerifier) {
+                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {'size': 'invisible'});
+            }
             sendOTP();
         }
+
         function sendOTP() {
             const num = "+966" + document.getElementById('phone-input').value;
             auth.signInWithPhoneNumber(num, window.recaptchaVerifier)
-                .then(res => { confirmationResult = res; document.getElementById('auth-options').classList.add('hidden'); document.getElementById('otp-section').classList.remove('hidden'); })
-                .catch(() => alert("خطأ في الإرسال"));
+                .then(res => { 
+                    confirmationResult = res; 
+                    document.getElementById('auth-options').classList.add('hidden'); 
+                    document.getElementById('otp-section').classList.remove('hidden'); 
+                })
+                .catch(() => alert("خطأ في الإرسال: تأكد من الرقم أو تفعيل الخطة"));
         }
+
         function verifyCode() {
             const code = document.getElementById('otp-input').value;
             const name = document.getElementById('user-name-input').value;
@@ -149,15 +170,19 @@
                 else location.reload();
             });
         }
+
         function loginWithGoogle() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
+
         auth.onAuthStateChanged(user => {
             if (user) {
                 document.getElementById('auth-container').classList.add('hidden');
                 document.getElementById('user-profile').classList.remove('hidden');
+                document.getElementById('header-user-btn').innerText = "ملفي الشخصي";
                 document.getElementById('display-name').innerText = "أهلاً، " + (user.displayName || "بك");
-                if(user.photoURL) document.getElementById('user-photo').innerHTML = `<img src="${user.photoURL}" class="w-full h-full rounded-full object-cover">`;
+                if(user.photoURL) document.getElementById('user-photo').innerHTML = `<img src="${user.photoURL}" class="w-full h-full object-cover">`;
             }
         });
+
         function handleSignOut() { auth.signOut().then(() => location.reload()); }
     </script>
 </body>
