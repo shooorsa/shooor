@@ -56,7 +56,7 @@
     </header>
 
     <section class="py-12 px-6 text-center bg-white">
-        <h1 class="text-4xl md:text-5xl font-black mb-4 text-blue-900 leading-tight">ما خاب من <span class="text-orange-500 underline underline-offset-8">استشار</span> </h1>
+        <h1 class="text-4xl md:text-5xl font-black mb-4 text-blue-900 leading-tight">ابحث عن شخص <span class="text-orange-500 underline underline-offset-8">عاش</span> تجربتك</h1>
         <p class="text-slate-500 font-bold max-w-xl mx-auto text-sm">منصة الاستشارات التي تنقل لك الواقع كما هو، من أشخاص خاضوا التجربة قبلك.</p>
     </section>
 
@@ -149,7 +149,6 @@
         const auth = firebase.auth();
         let confirmationResult;
 
-        // قاعدة بيانات التجارب
         const allExperiences = [
             { category: 'مشاريع', title: 'أسست محل جوالات وصيانة في الرياض', detail: 'خضت التجربة كاملة؛ من التراخيص للموردين وتوظيف الفنيين. أعلمك كيف تبدأ صح وتتجنب الخسارة.', icon: '📱', name: 'أبو فهد', tag: 'محل جوالات' },
             { category: 'نفسية', title: 'تعافيت من الاكتئاب الحاد (بدون أدوية)', detail: 'عشت سنتين في دوامة الاكتئاب وخرجت منها بتغيير جذري للسلوك ونمط الحياة. أنقل لك تجربتي الشخصية.', icon: '🌱', name: 'سارة أ.', tag: 'اكتئاب' },
@@ -175,7 +174,7 @@
                         </div>
                         <div class="mt-8 pt-6 border-t border-slate-50 flex justify-between items-center">
                             <span class="text-[10px] font-black text-slate-400 uppercase tracking-tighter">بواسطة: ${exp.name}</span>
-                            <button onclick="window.scrollTo(0, document.body.scrollHeight)" class="bg-blue-900 text-white px-5 py-2 rounded-xl text-xs font-black shadow-lg">اطلب الشور</button>
+                            <button onclick="window.location.href='chat.html'" class="bg-blue-900 text-white px-5 py-2 rounded-xl text-xs font-black shadow-lg">اطلب الشور</button>
                         </div>
                     </div>
                 `;
@@ -198,7 +197,6 @@
             renderExperiences(filtered);
         }
 
-        // وظائف Firebase & المحفظة
         function openRechargeModal() { document.getElementById('recharge-modal').style.display = 'flex'; }
         function closeRechargeModal() { document.getElementById('recharge-modal').style.display = 'none'; }
         
@@ -212,7 +210,11 @@
         function sendOTP() {
             const num = "+966" + document.getElementById('phone-input').value;
             auth.signInWithPhoneNumber(num, window.recaptchaVerifier)
-                .then(res => { confirmationResult = res; document.getElementById('auth-options').classList.add('hidden'); document.getElementById('otp-section').classList.remove('hidden'); })
+                .then(res => { 
+                    confirmationResult = res; 
+                    document.getElementById('auth-options').classList.add('hidden'); 
+                    document.getElementById('otp-section').classList.remove('hidden'); 
+                })
                 .catch(() => alert("خطأ في الإرسال"));
         }
 
@@ -239,7 +241,6 @@
 
         function handleSignOut() { auth.signOut().then(() => location.reload()); }
 
-        // تشغيل عرض التجارب عند التحميل
         renderExperiences(allExperiences);
     </script>
 </body>
