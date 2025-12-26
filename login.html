@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body class="bg-slate-50 font-[Tajawal] flex items-center justify-center min-h-screen">
+
     <div class="bg-white p-10 rounded-[2.5rem] shadow-xl max-w-sm w-full text-center border border-slate-100">
         <div class="text-3xl font-black text-blue-900 mb-2">شـــووور</div>
         <p class="text-slate-400 text-xs font-bold mb-8 uppercase tracking-widest">مرحباً بك مجدداً</p>
@@ -17,33 +18,26 @@
             <span>سجل دخولك باستخدام قوقل</span>
         </button>
 
-        <div id="status" class="mt-4 text-blue-900 font-bold text-sm hidden">جاري التحميل...</div>
+        <div id="status" class="mt-4 text-blue-900 font-bold text-sm hidden animate-pulse">جاري التحقق...</div>
         
         <a href="index.html" class="block mt-8 text-xs text-slate-400 font-bold hover:underline">العودة للرئيسية</a>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
     <script>
+        // إعدادات المشروع الصافية
         const firebaseConfig = { 
             apiKey: "AIzaSyAZSFCf7piwKykf_klgGlzc4RkCXumNRUg", 
             authDomain: "shooor-app.firebaseapp.com", 
             projectId: "shooor-app" 
         };
         
+        // منع تكرار تهيئة التطبيق
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
-
-        // هذه الوظيفة تتحقق إذا عاد المستخدم من صفحة قوقل بنجاح
-        firebase.auth().getRedirectResult().then((result) => {
-            if (result.user) {
-                window.location.href = "index.html";
-            }
-        }).catch((error) => {
-            console.error("خطأ في العودة:", error.message);
-        });
 
         function login() {
             const btn = document.getElementById('loginBtn');
@@ -51,13 +45,28 @@
             
             btn.disabled = true;
             btn.style.opacity = '0.5';
-            status.innerText = "جاري تحويلك إلى قوقل...";
             status.classList.remove('hidden');
 
             const provider = new firebase.auth.GoogleAuthProvider();
             
-            // استخدام Redirect بدلاً من Popup لحل مشكلة الإغلاق والحظر
-            firebase.auth().signInWithRedirect(provider);
+            // إضافة إعدادات إضافية لضمان عمل الطلب
+            provider.setCustomParameters({ prompt: 'select_account' });
+
+            firebase.auth().signInWithPopup(provider)
+                .then((result) => {
+                    console.log("نجح الدخول:", result.user.displayName);
+                    window.location.href = "index.html";
+                })
+                .catch((error) => {
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+                    status.classList.add('hidden');
+                    
+                    console.error("Firebase Error Code:", error.code);
+                    console.error("Firebase Error Message:", error.message);
+                    
+                    alert("نعتذر، حدث خطأ: " + error.message);
+                });
         }
     </script>
 </body>
