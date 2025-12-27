@@ -17,9 +17,9 @@
 </head>
 <body class="bg-slate-50 text-slate-900">
 
-    <div id="recharge-modal" class="modal items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl relative text-right">
-            <button onclick="closeRechargeModal()" class="absolute top-6 left-6 text-slate-400 hover:text-red-500 font-bold">✕</button>
+    <div id="recharge-modal" class="modal items-center justify-center p-4 text-right">
+        <div class="bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl relative">
+            <button onclick="closeRechargeModal()" class="absolute top-6 left-6 text-slate-400 font-bold">✕</button>
             <h3 class="text-xl font-black text-blue-900 mb-6 text-center">شحن رصيد المحفظة</h3>
             <div class="space-y-4">
                 <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100">
@@ -27,7 +27,7 @@
                     <p class="text-sm font-black text-blue-900 tracking-wider">SA 00 0000 0000 0000 0000 0000</p>
                     <p class="text-[10px] text-slate-400 mt-2">بنك الراجحي | مؤسسة شورو</p>
                 </div>
-                <a href="https://wa.me/966506775662?text=أريد شحن رصيدي في شورو" target="_blank" class="block w-full bg-[#25D366] text-white py-4 rounded-2xl text-center font-black shadow-lg">تأكيد عبر واتساب</a>
+                <a href="https://wa.me/966506775662?text=أريد شحن رصيدي" target="_blank" class="block w-full bg-[#25D366] text-white py-4 rounded-2xl text-center font-black shadow-lg hover:bg-[#128C7E] transition-all">تأكيد عبر واتساب</a>
             </div>
         </div>
     </div>
@@ -40,17 +40,17 @@
             </div>
             <div class="flex gap-2">
                 <a href="#customer-register" id="header-user-btn" class="bg-blue-100 text-blue-900 px-4 py-2 rounded-full text-xs font-black">حسابي</a>
-                <a href="#join-expert-section" class="bg-blue-900 text-white px-4 py-2 rounded-full text-xs font-black hover:bg-orange-500 transition-all">انضم كخبير</a>
+                <a href="join.html" class="bg-blue-900 text-white px-4 py-2 rounded-full text-xs font-black hover:bg-orange-500 transition-colors">انضم كخبير</a>
             </div>
         </div>
     </header>
 
     <section class="py-12 px-6 text-center bg-white">
-        <h1 class="text-4xl md:text-5xl font-black mb-4 text-blue-900 leading-tight">ابحث عن شخص <span class="text-orange-500 underline underline-offset-8">عاش</span> تجربتك</h1>
+        <h1 class="text-4xl md:text-5xl font-black mb-4 text-blue-900">ابحث عن شخص <span class="text-orange-500 underline underline-offset-8">عاش</span> تجربتك</h1>
         <p class="text-slate-500 font-bold max-w-xl mx-auto text-sm">منصة الاستشارات التي تنقل لك الواقع كما هو.</p>
     </section>
 
-    <section class="pb-8 px-6 max-w-6xl mx-auto">
+    <section class="pb-8 px-6 max-w-6xl mx-auto text-center">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <button onclick="filterExperiences('سفر', this)" class="category-btn bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex flex-col items-center gap-2 transition-all">
                 <span class="text-3xl">✈️</span> <span class="font-black text-sm">السفر</span>
@@ -76,19 +76,19 @@
             <div id="auth-container" class="text-center">
                 <h3 class="text-2xl font-black mb-8 text-blue-900 italic">سجل دخولك الآن</h3>
                 <div id="auth-options" class="space-y-4">
-                    <button onclick="loginWithGoogle()" class="w-full flex items-center justify-center gap-3 bg-white border-2 py-4 rounded-2xl font-bold hover:bg-slate-50 transition-all">
+                    <button onclick="loginWithGoogle()" class="w-full flex items-center justify-center gap-3 bg-white border-2 py-4 rounded-2xl font-bold hover:bg-slate-50 transition-all shadow-sm">
                         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-6 h-6"> الدخول عبر Google
                     </button>
-                    <div class="py-2 text-slate-400 text-[10px] font-black uppercase">أو عبر الجوال</div>
+                    <div class="py-2 text-slate-400 text-[10px] font-black uppercase tracking-widest">أو عبر الجوال</div>
                     <div class="flex gap-2" dir="ltr">
                         <span class="bg-slate-100 p-4 rounded-2xl font-bold text-slate-400">+966</span>
-                        <input type="tel" id="phone-input" placeholder="5xxxxxxxx" class="w-full p-4 bg-slate-50 rounded-2xl text-left outline-none border-2 border-transparent focus:border-blue-900">
+                        <input type="tel" id="phone-input" placeholder="5xxxxxxxx" class="w-full p-4 bg-slate-50 rounded-2xl text-left outline-none">
                     </div>
                     <button onclick="setupRecaptcha()" class="w-full bg-blue-900 text-white py-4 rounded-2xl font-black shadow-lg">إرسال كود التحقق</button>
                 </div>
-                <div id="otp-section" class="hidden space-y-4 text-center">
+                <div id="otp-section" class="hidden space-y-4">
                     <input type="text" id="otp-input" placeholder="000000" class="w-full p-4 bg-slate-50 rounded-2xl text-center text-2xl font-black">
-                    <button onclick="verifyCode()" class="w-full bg-orange-500 text-white py-4 rounded-2xl font-black">تأكيد الرمز</button>
+                    <button onclick="verifyCode()" class="w-full bg-orange-500 text-white py-4 rounded-2xl font-black shadow-lg">تأكيد الرمز</button>
                 </div>
                 <div id="recaptcha-container"></div>
             </div>
@@ -96,49 +96,13 @@
             <div id="user-profile" class="hidden text-center">
                 <div id="user-photo" class="w-20 h-20 rounded-full mx-auto mb-4 bg-blue-50 flex items-center justify-center text-2xl overflow-hidden shadow-inner border-4 border-white ring-4 ring-slate-100">👤</div>
                 <h3 id="display-name" class="text-xl font-black mb-6 text-blue-900 italic">أهلاً بك</h3>
-                <div class="bg-slate-900 p-8 rounded-[2.5rem] text-right text-white shadow-2xl relative overflow-hidden">
+                <div class="bg-slate-900 p-8 rounded-[2rem] text-right text-white shadow-2xl relative overflow-hidden">
                     <p class="text-blue-400 text-[10px] font-bold mb-1 uppercase tracking-widest">الرصيد المتاح</p>
                     <h2 class="text-4xl font-black mb-6">0.00 <span class="text-xs font-normal">ر.س</span></h2>
-                    <button onclick="openRechargeModal()" class="w-full bg-orange-500 text-white py-4 rounded-2xl font-black shadow-lg">شحن المحفظة</button>
+                    <button onclick="openRechargeModal()" class="w-full bg-orange-500 text-white py-4 rounded-2xl font-black shadow-lg hover:bg-orange-600 transition-all">+ شحن المحفظة</button>
                 </div>
-                <button onclick="handleSignOut()" class="mt-8 text-red-400 text-[10px] font-bold uppercase tracking-widest">تسجيل الخروج</button>
+                <button onclick="handleSignOut()" class="mt-8 text-red-400 text-[10px] font-bold uppercase tracking-widest hover:text-red-600 transition-all">تسجيل الخروج</button>
             </div>
-        </div>
-    </section>
-
-    <section id="join-expert-section" class="py-16 bg-white px-6 text-right border-t">
-        <div class="max-w-2xl mx-auto">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-black text-blue-900 mb-2 italic">كن أحد خبراء شـــووور</h2>
-                <p class="text-slate-500 font-bold text-sm">شارك تجربتك، ساعد الآخرين، وابدأ بجني الأرباح</p>
-            </div>
-            <form id="expert-form" onsubmit="handleExpertSubmit(event)" class="space-y-6 bg-slate-50 p-8 md:p-12 rounded-[3rem] border border-slate-100 shadow-sm transition-all">
-                <div>
-                    <label class="block text-blue-900 font-black mb-2 mr-2 text-sm">الاسم الكامل</label>
-                    <input type="text" id="exp-name" required class="w-full p-4 rounded-2xl border-none outline-none shadow-inner focus:ring-2 focus:ring-orange-500" placeholder="اكتب اسمك الثلاثي">
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-blue-900 font-black mb-2 mr-2 text-sm">مجال الخبرة</label>
-                        <select id="exp-category" required class="w-full p-4 rounded-2xl border-none outline-none shadow-inner focus:ring-2 focus:ring-orange-500 bg-white font-bold">
-                            <option value="سفر">السفر</option>
-                            <option value="نفسية">تجربة نفسية</option>
-                            <option value="مشاريع">المشاريع</option>
-                            <option value="مشتريات">المشتريات</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-blue-900 font-black mb-2 mr-2 text-sm">رقم الجوال</label>
-                        <input type="tel" id="exp-phone" required class="w-full p-4 rounded-2xl border-none outline-none shadow-inner focus:ring-2 focus:ring-orange-500 text-left" placeholder="05xxxxxxxx">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-blue-900 font-black mb-2 mr-2 text-sm">نبذة عن تجربتك</label>
-                    <textarea id="exp-detail" required rows="4" class="w-full p-4 rounded-2xl border-none outline-none shadow-inner focus:ring-2 focus:ring-orange-500" placeholder="اشرح باختصار التجربة التي تريد تقديم الشور فيها..."></textarea>
-                </div>
-                <button type="submit" id="submit-expert-btn" class="w-full bg-blue-900 text-white py-5 rounded-2xl font-black shadow-lg">إرسال طلب الانضمام</button>
-                <p id="form-status" class="text-center text-xs font-black text-green-600 hidden animate-bounce">تم إرسال طلبك بنجاح!</p>
-            </form>
         </div>
     </section>
 
@@ -180,11 +144,11 @@
                                 <span class="text-[10px] bg-blue-50 text-blue-600 px-3 py-1 rounded-full font-black uppercase tracking-widest">#${exp.tag}</span>
                             </div>
                             <h3 class="text-xl font-black text-blue-900 mb-3 leading-tight">${exp.title}</h3>
-                            <p class="text-sm text-slate-500 font-bold">${exp.detail}</p>
+                            <p class="text-sm text-slate-500 font-bold leading-relaxed">${exp.detail}</p>
                         </div>
                         <div class="mt-8 pt-6 border-t border-slate-50 flex justify-between items-center">
                             <span class="text-[10px] font-black text-slate-400">بواسطة: ${exp.name}</span>
-                            <button onclick="goToChat('${exp.name}', event)" class="bg-blue-900 text-white px-5 py-2 rounded-xl text-xs font-black shadow-lg">اطلب الشور</button>
+                            <button onclick="goToChat('${exp.name}', event)" class="bg-blue-900 text-white px-5 py-2 rounded-xl text-xs font-black shadow-lg hover:bg-orange-500 transition-all">اطلب الشور</button>
                         </div>
                     </div>
                 `;
@@ -193,15 +157,19 @@
 
         async function goToChat(expertName, event) {
             const user = auth.currentUser;
-            if (!user) { alert("يرجى تسجيل الدخول أولاً."); document.getElementById('customer-register').scrollIntoView({ behavior: 'smooth' }); return; }
-            const btn = event.target; btn.innerText = "جاري الإرسال..."; btn.disabled = true;
+            if (!user) {
+                alert("يرجى تسجيل الدخول أولاً.");
+                document.getElementById('customer-register').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+            const btn = event.target; btn.disabled = true; btn.innerText = "جاري الإرسال...";
             try {
                 const requestRef = await db.collection("consultations").add({
                     userId: user.uid, userName: user.displayName || user.phoneNumber || "مستخدم",
                     expertName: expertName, status: "pending", createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 window.location.href = `waiting.html?requestId=${requestRef.id}&expert=${encodeURIComponent(expertName)}`;
-            } catch (error) { alert("حدث خطأ."); btn.innerText = "اطلب الشور"; btn.disabled = false; }
+            } catch (error) { alert("حدث خطأ."); btn.disabled = false; btn.innerText = "اطلب الشور"; }
         }
 
         function filterExperiences(cat, btn) {
@@ -212,9 +180,8 @@
 
         function loginWithGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
-            // تحديد الصلاحيات برمجياً لحل مشكلة الصورة الثانية
-            provider.addScope('https://www.googleapis.com/auth/userinfo.profile');
-            provider.addScope('https://www.googleapis.com/auth/userinfo.email');
+            provider.addScope('profile');
+            provider.addScope('email');
             auth.signInWithRedirect(provider);
         }
 
@@ -235,32 +202,13 @@
                 confirmationResult = res;
                 document.getElementById('auth-options').classList.add('hidden');
                 document.getElementById('otp-section').classList.remove('hidden');
-            });
+            }).catch(e => { alert("خطأ: " + e.message); location.reload(); });
         }
 
         function verifyCode() { confirmationResult.confirm(document.getElementById('otp-input').value).then(() => location.reload()); }
         function handleSignOut() { auth.signOut().then(() => location.reload()); }
         function openRechargeModal() { document.getElementById('recharge-modal').style.display = 'flex'; }
         function closeRechargeModal() { document.getElementById('recharge-modal').style.display = 'none'; }
-
-        async function handleExpertSubmit(event) {
-            event.preventDefault();
-            const btn = document.getElementById('submit-expert-btn');
-            const expertData = {
-                name: document.getElementById('exp-name').value,
-                category: document.getElementById('exp-category').value,
-                phone: document.getElementById('exp-phone').value,
-                detail: document.getElementById('exp-detail').value,
-                submittedAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
-            btn.disabled = true;
-            try {
-                await db.collection("experts_requests").add(expertData);
-                document.getElementById('form-status').classList.remove('hidden');
-                btn.innerText = "تم الإرسال ✅";
-                event.target.reset();
-            } catch (error) { alert("حدث خطأ."); btn.disabled = false; }
-        }
 
         renderExperiences(allExperiences);
     </script>
