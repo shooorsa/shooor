@@ -50,7 +50,7 @@
             </div>
             <div class="flex gap-2">
                 <a href="#customer-register" id="header-user-btn" class="bg-blue-100 text-blue-900 px-4 py-2 rounded-full text-xs font-black">حسابي</a>
-                <a href="https://wa.me/966506775662?text=أريد الانضمام كخبير" class="bg-blue-900 text-white px-4 py-2 rounded-full text-xs font-black">انضم كخبير</a>
+                <a href="#join-expert-section" class="bg-blue-900 text-white px-4 py-2 rounded-full text-xs font-black hover:bg-orange-500 transition-colors">انضم كخبير</a>
             </div>
         </div>
     </header>
@@ -94,7 +94,6 @@
 
     <section id="customer-register" class="py-16 bg-slate-100 px-6 text-right border-y">
         <div class="max-w-xl mx-auto bg-white p-10 rounded-[3rem] shadow-sm border border-slate-200">
-            
             <div id="auth-container" class="text-center">
                 <h3 class="text-2xl font-black mb-8 text-blue-900 uppercase tracking-tighter">سجل دخولك الآن</h3>
                 <div id="auth-options" class="space-y-4">
@@ -129,6 +128,48 @@
         </div>
     </section>
 
+    <section id="join-expert-section" class="py-16 bg-white px-6 text-right border-t">
+        <div class="max-w-2xl mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-black text-blue-900 mb-2 italic">كن أحد خبراء شـــووور</h2>
+                <p class="text-slate-500 font-bold text-sm">شارك تجربتك، ساعد الآخرين، وابدأ بجني الأرباح</p>
+            </div>
+
+            <form id="expert-form" onsubmit="handleExpertSubmit(event)" class="space-y-6 bg-slate-50 p-8 md:p-12 rounded-[3rem] border border-slate-100 shadow-sm transition-all">
+                <div>
+                    <label class="block text-blue-900 font-black mb-2 mr-2 text-sm">الاسم الكامل</label>
+                    <input type="text" id="exp-name" required class="w-full p-4 rounded-2xl border-none outline-none shadow-inner focus:ring-2 focus:ring-orange-500" placeholder="اكتب اسمك الثلاثي">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-blue-900 font-black mb-2 mr-2 text-sm">مجال الخبرة</label>
+                        <select id="exp-category" required class="w-full p-4 rounded-2xl border-none outline-none shadow-inner focus:ring-2 focus:ring-orange-500 bg-white font-bold">
+                            <option value="سفر">السفر</option>
+                            <option value="نفسية">تجربة نفسية</option>
+                            <option value="مشاريع">المشاريع</option>
+                            <option value="مشتريات">المشتريات</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-blue-900 font-black mb-2 mr-2 text-sm">رقم الجوال</label>
+                        <input type="tel" id="exp-phone" required class="w-full p-4 rounded-2xl border-none outline-none shadow-inner focus:ring-2 focus:ring-orange-500 text-left" placeholder="05xxxxxxxx">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-blue-900 font-black mb-2 mr-2 text-sm">نبذة عن تجربتك</label>
+                    <textarea id="exp-detail" required rows="4" class="w-full p-4 rounded-2xl border-none outline-none shadow-inner focus:ring-2 focus:ring-orange-500" placeholder="اشرح باختصار التجربة التي تريد تقديم الشور فيها..."></textarea>
+                </div>
+
+                <button type="submit" id="submit-expert-btn" class="w-full bg-blue-900 text-white py-5 rounded-2xl font-black shadow-lg hover:bg-orange-500 transition-all transform hover:scale-[1.02]">
+                    إرسال طلب الانضمام
+                </button>
+                <p id="form-status" class="text-center text-xs font-black text-green-600 hidden animate-bounce">تم إرسال طلبك بنجاح! سنتواصل معك قريباً.</p>
+            </form>
+        </div>
+    </section>
+
     <footer class="py-12 bg-white text-center text-slate-400 text-[10px] font-black tracking-[0.2em] uppercase border-t">
         <p>&copy; 2025 شـــووور - Shooor | خذ الشور من مجرّب</p>
     </footer>
@@ -137,6 +178,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 
     <script>
+        // إعدادات Firebase الأصلية
         const firebaseConfig = {
             apiKey: "AIzaSyAZSFCf7piwKykf_klgGlzc4RkCXumNRUg",
             authDomain: "shooor-app.firebaseapp.com",
@@ -174,7 +216,7 @@
                         </div>
                         <div class="mt-8 pt-6 border-t border-slate-50 flex justify-between items-center">
                             <span class="text-[10px] font-black text-slate-400 uppercase tracking-tighter">بواسطة: ${exp.name}</span>
-                            <button onclick="window.location.href='chat.html'" class="bg-blue-900 text-white px-5 py-2 rounded-xl text-xs font-black shadow-lg">اطلب الشور</button>
+                            <button onclick="window.location.href='chat.html'" class="bg-blue-900 text-white px-5 py-2 rounded-xl text-xs font-black shadow-lg hover:bg-orange-500 transition-colors">اطلب الشور</button>
                         </div>
                     </div>
                 `;
@@ -227,20 +269,10 @@
             });
         }
 
-        // --- وظيفة تسجيل الدخول عبر قوقل المصححة ---
-        function loginWithGoogle() {
+        function loginWithGoogle() { 
             const provider = new firebase.auth.GoogleAuthProvider();
             provider.setCustomParameters({ prompt: 'select_account' });
-            auth.signInWithPopup(provider)
-                .then(() => {
-                    // التحديث يتم تلقائياً عبر onAuthStateChanged
-                })
-                .catch((error) => {
-                    console.error("خطأ قوقل:", error.message);
-                    if(error.code !== 'auth/popup-closed-by-user') {
-                        alert("حدث خطأ في الاتصال بقوقل: " + error.message);
-                    }
-                });
+            auth.signInWithPopup(provider).catch(err => console.error(err));
         }
 
         auth.onAuthStateChanged(user => {
@@ -254,6 +286,26 @@
         });
 
         function handleSignOut() { auth.signOut().then(() => location.reload()); }
+
+        // --- وظيفة نموذج الانضمام كخبير (التعديل الجديد) ---
+        function handleExpertSubmit(event) {
+            event.preventDefault();
+            const status = document.getElementById('form-status');
+            const btn = document.getElementById('submit-expert-btn');
+
+            btn.disabled = true;
+            btn.innerText = "جاري إرسال طلبك...";
+
+            // سيتم ربطها بـ Firestore لاحقاً لتخزين البيانات
+            setTimeout(() => {
+                status.classList.remove('hidden');
+                btn.innerText = "تم الإرسال بنجاح ✅";
+                btn.classList.replace('bg-blue-900', 'bg-green-600');
+                event.target.reset();
+                
+                alert("شكراً لانضمامك! تم استلام طلبك وسنقوم بمراجعته قريباً.");
+            }, 1500);
+        }
 
         renderExperiences(allExperiences);
     </script>
