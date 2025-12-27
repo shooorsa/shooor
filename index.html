@@ -95,35 +95,49 @@
     <section id="customer-register" class="py-16 bg-slate-100 px-6 text-right border-y">
         <div class="max-w-xl mx-auto bg-white p-10 rounded-[3rem] shadow-sm border border-slate-200">
             <div id="auth-container" class="text-center">
-                <h3 class="text-2xl font-black mb-8 text-blue-900 uppercase tracking-tighter">سجل دخولك الآن</h3>
-                <div id="auth-options" class="space-y-4">
-                    <button onclick="loginWithGoogle()" class="w-full flex items-center justify-center gap-3 bg-white border py-4 rounded-2xl font-bold hover:bg-slate-50">
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-6 h-6"> الدخول عبر Google
+                <h3 class="text-2xl font-black mb-10 text-blue-900 italic tracking-tighter">سجل دخولك الآن</h3>
+                
+                <div id="auth-options" class="space-y-6">
+                    <button onclick="loginWithGoogle()" class="w-full flex items-center justify-center gap-4 bg-white border-2 border-slate-100 py-5 rounded-3xl font-black text-lg hover:bg-slate-50 hover:border-blue-900 transition-all shadow-sm group">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-6 h-6 group-hover:scale-110 transition-transform">
+                        <span>الدخول عبر Google</span>
                     </button>
-                    <div class="py-2 text-slate-400 text-[10px] font-black uppercase tracking-widest">أو عبر الجوال</div>
-                    <input type="text" id="user-name-input" placeholder="الاسم الكامل" class="w-full p-4 bg-slate-50 rounded-2xl text-right outline-none">
-                    <div class="flex gap-2" dir="ltr">
-                        <span class="bg-slate-100 p-4 rounded-2xl font-bold text-slate-400">+966</span>
-                        <input type="tel" id="phone-input" placeholder="5xxxxxxxx" class="w-full p-4 bg-slate-50 rounded-2xl text-left outline-none">
+
+                    <div class="py-4 text-slate-300 text-[10px] font-black uppercase flex items-center gap-4">
+                        <hr class="flex-grow border-slate-200"> أو عبر الجوال <hr class="flex-grow border-slate-200">
                     </div>
-                    <button onclick="setupRecaptcha()" class="w-full bg-blue-900 text-white py-4 rounded-2xl font-black shadow-lg">إرسال كود التحقق</button>
+
+                    <div class="text-right">
+                        <div class="flex gap-2" dir="ltr">
+                            <span class="bg-slate-100 p-4 rounded-2xl font-bold text-slate-400">+966</span>
+                            <input type="tel" id="phone-input" placeholder="5xxxxxxxx" class="w-full p-4 bg-slate-50 rounded-2xl text-left outline-none border-2 border-transparent focus:border-blue-900 transition-all">
+                        </div>
+                    </div>
+                    
+                    <button onclick="setupRecaptcha()" class="w-full bg-blue-900 text-white py-4 rounded-2xl font-black shadow-lg hover:bg-blue-800 transition-all">إرسال كود التحقق</button>
                 </div>
-                <div id="otp-section" class="hidden space-y-4">
-                    <input type="text" id="otp-input" placeholder="الرمز المكون من 6 أرقام" class="w-full p-4 bg-slate-50 rounded-2xl text-center text-2xl tracking-[0.4em] font-black">
-                    <button onclick="verifyCode()" class="w-full bg-orange-500 text-white py-4 rounded-2xl font-black shadow-lg">تأكيد الرمز</button>
+
+                <div id="otp-section" class="hidden space-y-6">
+                    <div>
+                        <p class="text-xs font-bold text-slate-500 mb-4">أدخل الرمز المرسل لجوالك</p>
+                        <input type="text" id="otp-input" placeholder="000000" class="w-full p-4 bg-slate-50 rounded-2xl text-center text-3xl tracking-[0.5em] font-black border-2 border-blue-100 focus:border-blue-900 outline-none">
+                    </div>
+                    <button onclick="verifyCode()" class="w-full bg-orange-500 text-white py-4 rounded-2xl font-black shadow-lg hover:bg-orange-600 transition-all">تأكيد الدخول</button>
+                    <button onclick="location.reload()" class="text-[10px] text-slate-400 font-bold underline">تغيير الرقم</button>
                 </div>
-                <div id="recaptcha-container"></div>
+                
+                <div id="recaptcha-container" class="mt-4 flex justify-center"></div>
             </div>
 
             <div id="user-profile" class="hidden text-center">
-                <div id="user-photo" class="w-20 h-20 rounded-full mx-auto mb-4 bg-blue-50 flex items-center justify-center text-2xl overflow-hidden shadow-inner">👤</div>
+                <div id="user-photo" class="w-20 h-20 rounded-full mx-auto mb-4 bg-blue-50 flex items-center justify-center text-2xl overflow-hidden shadow-inner border-4 border-white ring-4 ring-slate-100">👤</div>
                 <h3 id="display-name" class="text-xl font-black mb-6 text-blue-900 italic">أهلاً بك</h3>
-                <div class="bg-slate-900 p-8 rounded-[2rem] text-right text-white shadow-2xl relative overflow-hidden">
+                <div class="bg-slate-900 p-8 rounded-[2.5rem] text-right text-white shadow-2xl relative overflow-hidden">
                     <p class="text-blue-400 text-[10px] font-bold mb-1 uppercase tracking-widest">الرصيد المتاح</p>
-                    <h2 class="text-4xl font-black mb-6">0.00 <span class="text-xs font-normal text-slate-500 uppercase tracking-normal">ر.س</span></h2>
+                    <h2 class="text-4xl font-black mb-6">0.00 <span class="text-xs font-normal text-slate-500">ر.س</span></h2>
                     <button onclick="openRechargeModal()" class="w-full bg-orange-500 text-white py-4 rounded-2xl font-black shadow-lg hover:bg-orange-600 transition-all">+ شحن المحفظة</button>
                 </div>
-                <button onclick="handleSignOut()" class="mt-8 text-red-400 text-[10px] font-bold uppercase tracking-widest">تسجيل الخروج</button>
+                <button onclick="handleSignOut()" class="mt-8 text-red-400 text-[10px] font-bold uppercase tracking-widest hover:text-red-600">تسجيل الخروج</button>
             </div>
         </div>
     </section>
@@ -140,7 +154,6 @@
                     <label class="block text-blue-900 font-black mb-2 mr-2 text-sm">الاسم الكامل</label>
                     <input type="text" id="exp-name" required class="w-full p-4 rounded-2xl border-none outline-none shadow-inner focus:ring-2 focus:ring-orange-500" placeholder="اكتب اسمك الثلاثي">
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-blue-900 font-black mb-2 mr-2 text-sm">مجال الخبرة</label>
@@ -156,12 +169,10 @@
                         <input type="tel" id="exp-phone" required class="w-full p-4 rounded-2xl border-none outline-none shadow-inner focus:ring-2 focus:ring-orange-500 text-left" placeholder="05xxxxxxxx">
                     </div>
                 </div>
-
                 <div>
                     <label class="block text-blue-900 font-black mb-2 mr-2 text-sm">نبذة عن تجربتك</label>
                     <textarea id="exp-detail" required rows="4" class="w-full p-4 rounded-2xl border-none outline-none shadow-inner focus:ring-2 focus:ring-orange-500" placeholder="اشرح باختصار التجربة التي تريد تقديم الشور فيها..."></textarea>
                 </div>
-
                 <button type="submit" id="submit-expert-btn" class="w-full bg-blue-900 text-white py-5 rounded-2xl font-black shadow-lg hover:bg-orange-500 transition-all transform hover:scale-[1.02]">
                     إرسال طلب الانضمام
                 </button>
@@ -199,12 +210,10 @@
         function renderExperiences(data) {
             const grid = document.getElementById('experiences-grid');
             grid.innerHTML = '';
-            
             if (data.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-400 font-bold">لا يوجد خبراء في هذا القسم حالياً.. كن أنت الأول!</div>';
+                grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-400 font-bold">لا يوجد خبراء حالياً.. كن أنت الأول!</div>';
                 return;
             }
-
             data.forEach(exp => {
                 grid.innerHTML += `
                     <div class="experience-card bg-white p-8 rounded-[2.5rem] shadow-sm flex flex-col justify-between border-2 border-transparent">
@@ -218,7 +227,7 @@
                         </div>
                         <div class="mt-8 pt-6 border-t border-slate-50 flex justify-between items-center">
                             <span class="text-[10px] font-black text-slate-400 uppercase tracking-tighter">بواسطة: ${exp.name}</span>
-                            <button onclick="goToChat('${exp.name}', event)" class="bg-blue-900 text-white px-5 py-2 rounded-xl text-xs font-black shadow-lg hover:bg-orange-500 transition-colors">اطلب الشور</button>
+                            <button onclick="goToChat('${exp.name}', event)" class="bg-blue-900 text-white px-5 py-2 rounded-xl text-xs font-black shadow-lg hover:bg-orange-500 transition-all">اطلب الشور</button>
                         </div>
                     </div>
                 `;
@@ -232,26 +241,21 @@
                 document.getElementById('customer-register').scrollIntoView({ behavior: 'smooth' });
                 return;
             }
-
             const btn = event.target;
-            const originalText = btn.innerText;
-            btn.innerText = "جاري إرسال الطلب...";
+            btn.innerText = "جاري الإرسال...";
             btn.disabled = true;
-
             try {
                 const requestRef = await db.collection("consultations").add({
                     userId: user.uid,
-                    userName: user.displayName || "مستخدم",
+                    userName: user.displayName || user.phoneNumber || "مستخدم",
                     expertName: expertName,
                     status: "pending",
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
-
                 window.location.href = `waiting.html?requestId=${requestRef.id}&expert=${encodeURIComponent(expertName)}`;
             } catch (error) {
-                console.error("Error creating request: ", error);
-                alert("حدث خطأ أثناء إرسال الطلب.");
-                btn.innerText = originalText;
+                alert("حدث خطأ.");
+                btn.innerText = "اطلب الشور";
                 btn.disabled = false;
             }
         }
@@ -276,58 +280,55 @@
         function closeRechargeModal() { document.getElementById('recharge-modal').style.display = 'none'; }
         
         function setupRecaptcha() {
-            if(!window.recaptchaVerifier) {
-                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {'size': 'invisible'});
-            }
-            sendOTP();
+            const phone = document.getElementById('phone-input').value;
+            if (phone.length < 9) { alert("أدخل رقم جوال صحيح"); return; }
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                'size': 'normal',
+                'callback': (response) => { sendOTP(); }
+            });
+            window.recaptchaVerifier.render();
         }
 
         function sendOTP() {
-            const num = "+966" + document.getElementById('phone-input').value;
-            auth.signInWithPhoneNumber(num, window.recaptchaVerifier)
+            const phone = "+966" + document.getElementById('phone-input').value;
+            auth.signInWithPhoneNumber(phone, window.recaptchaVerifier)
                 .then(res => { 
                     confirmationResult = res; 
                     document.getElementById('auth-options').classList.add('hidden'); 
                     document.getElementById('otp-section').classList.remove('hidden'); 
                 })
-                .catch(() => alert("خطأ في الإرسال"));
+                .catch(err => { alert("خطأ: " + err.message); location.reload(); });
         }
 
         function verifyCode() {
             const code = document.getElementById('otp-input').value;
-            const name = document.getElementById('user-name-input').value;
             confirmationResult.confirm(code).then(res => {
-                if(name) res.user.updateProfile({displayName: name}).then(() => location.reload());
-                else location.reload();
-            });
+                location.reload();
+            }).catch(err => alert("الرمز خطأ"));
         }
 
-        // محاولة تسجيل الدخول باستخدام popup أولاً، وإذا فشل نستخدم redirect
+        // تسجيل الدخول بقوقل - باستخدام redirect لتجاوز مشكلة النافذة المنبثقة تماماً
         function loginWithGoogle() { 
             const provider = new firebase.auth.GoogleAuthProvider();
             provider.setCustomParameters({ prompt: 'select_account' });
-            
-            auth.signInWithPopup(provider)
-                .catch((error) => {
-                    console.log("Popup فشل، نستخدم التحويل المباشر...");
-                    auth.signInWithRedirect(provider);
-                });
+            auth.signInWithRedirect(provider);
         }
 
-        // مراقبة الحالة ومعالجة العودة من التحويل
+        // مراقبة الحالة ومعالجة نتيجة الـ Redirect
         auth.onAuthStateChanged(user => {
             if (user) {
                 document.getElementById('auth-container').classList.add('hidden');
                 document.getElementById('user-profile').classList.remove('hidden');
                 document.getElementById('header-user-btn').innerText = "ملفي الشخصي";
-                document.getElementById('display-name').innerText = "أهلاً، " + (user.displayName || "بك");
+                document.getElementById('display-name').innerText = user.displayName || "أهلاً بك";
                 if(user.photoURL) document.getElementById('user-photo').innerHTML = `<img src="${user.photoURL}" class="w-full h-full object-cover">`;
             }
         });
 
-        // التقاط نتيجة Redirect عند العودة للصفحة
         auth.getRedirectResult().catch((error) => {
-            console.error("خطأ في العودة من قوقل: ", error.message);
+            if (error.code === 'auth/internal-error' || error.code === 'auth/invalid-action') {
+                console.error("خطأ تقني في الربط: يرجى التأكد من إضافة النطاق في Firebase.");
+            }
         });
 
         function handleSignOut() { auth.signOut().then(() => location.reload()); }
@@ -344,19 +345,17 @@
                 submittedAt: firebase.firestore.FieldValue.serverTimestamp()
             };
             btn.disabled = true;
-            btn.innerText = "جاري إرسال طلبك...";
+            btn.innerText = "جاري الإرسال...";
             try {
                 await db.collection("experts_requests").add(expertData);
                 status.classList.remove('hidden');
-                btn.innerText = "تم الإرسال بنجاح ✅";
+                btn.innerText = "تم الإرسال ✅";
                 btn.classList.replace('bg-blue-900', 'bg-green-600');
                 event.target.reset();
-                alert("رائع! تم حفظ طلبك وسنتواصل معك قريباً.");
+                alert("شكراً لك!");
             } catch (error) {
-                console.error("Error: ", error);
+                alert("حدث خطأ.");
                 btn.disabled = false;
-                btn.innerText = "إرسال طلب الانضمام";
-                alert("حدث خطأ أثناء الإرسال.");
             }
         }
 
