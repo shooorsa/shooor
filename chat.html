@@ -22,7 +22,7 @@
                     <span id="timer" class="font-black text-lg tracking-tighter">30:00</span>
                 </div>
                 <div>
-                    <h1 class="font-bold text-sm">محادثة الاستشارة</h1>
+                    <h1 id="chat-title" class="font-bold text-sm">محادثة الاستشارة</h1>
                     <div class="flex items-center gap-1">
                         <span class="w-2 h-2 bg-green-500 rounded-full timer-glow"></span>
                         <p class="text-[9px] text-blue-200 uppercase">جلسة نشطة الآن</p>
@@ -44,7 +44,7 @@
             
             <iframe 
                 id="chat-frame"
-                src="https://minnit.chat/PublicChat?embed&nickname=" 
+                src="" 
                 style="border:none; width:100%; height:100%; display:none;" 
                 allowTransparency="true"
                 allow="geolocation; microphone; camera; display-capture">
@@ -58,19 +58,22 @@
     </div>
 
     <script>
-        // إعدادات الوقت (30 دقيقة)
         let totalSeconds = 30 * 60;
         const timerElement = document.getElementById('timer');
         const chatFrame = document.getElementById('chat-frame');
         const loadingScreen = document.getElementById('loading-screen');
+        const chatTitle = document.getElementById('chat-title');
 
-        // وظيفة تشغيل العداد
+        // --- وظيفة استخراج اسم الخبير من الرابط ---
+        function getExpertName() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('expert') || "عام";
+        }
+
         function startTimer() {
             const interval = setInterval(() => {
                 let minutes = Math.floor(totalSeconds / 60);
                 let seconds = totalSeconds % 60;
-
-                // تنسيق العرض
                 timerElement.innerText = 
                     `${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
 
@@ -79,20 +82,26 @@
                     endSession();
                 } else {
                     totalSeconds--;
-                    // تغيير لون العداد للأحمر في آخر دقيقتين
                     if (totalSeconds < 120) timerElement.parentElement.classList.replace('bg-orange-500', 'bg-red-600');
                 }
             }, 1000);
         }
 
-        // محاكاة بدء الجلسة (يمكن ربطها بموافقة الخبير والدفع لاحقاً)
         window.onload = () => {
+            const expertName = getExpertName();
+            chatTitle.innerText = `استشارة مع: ${expertName}`;
+
+            // --- ربط المحادثة بغرفة خاصة بالخبير ---
+            // نقوم بإضافة اسم الخبير كـ "روم" (Room) داخل Minnit Chat
+            const minnitChatURL = `https://minnit.chat/PublicChat?embed&nickname=&room=${encodeURIComponent(expertName)}`;
+            chatFrame.src = minnitChatURL;
+
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
                 chatFrame.style.display = 'block';
                 startTimer();
-            }, 2000); // تأخير بسيط للمحاكاة
-        };
+            }, 2000);
+        }
 
         function endSession() {
             alert("انتهى الوقت المحدد للاستشارة. شكراً لاستخدامك شـــووور.");
