@@ -189,11 +189,10 @@
         };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const db = firebase.firestore(); // تعريف قاعدة البيانات
+        const db = firebase.firestore();
         let confirmationResult;
 
         const allExperiences = [
-            { category: 'نفسية', title: 'خبير في التعامل مع الحالات النفسية والسفر', detail: 'السفر', icon: '🧠', name: 'خالد الحسنين', tag: 'نفسية' },
             { category: 'مشاريع', title: 'أسست محل جوالات وصيانة في الرياض', detail: 'خضت التجربة كاملة؛ من التراخيص للموردين وتوظيف الفنيين. أعلمك كيف تبدأ صح وتتجنب الخسارة.', icon: '📱', name: 'أبو فهد', tag: 'محل جوالات' },
             { category: 'نفسية', title: 'تعافيت من الاكتئاب الحاد (بدون أدوية)', detail: 'عشت سنتين في دوامة الاكتئاب وخرجت منها بتغيير جذري للسلوك ونمط الحياة. أنقل لك تجربتي الشخصية.', icon: '🌱', name: 'سارة أ.', tag: 'اكتئاب' },
             { category: 'سفر', title: 'سافرت سويسرا بالقطار (ميزانية اقتصادية)', detail: 'زرت مدن سويسرية بـ 6000 ريال فقط. أعطيك الخطة كاملة للسكن والمواصلات والتوفير في بلد الغلاء.', icon: '🇨🇭', name: 'خالد محمد', tag: 'سويسرا' },
@@ -202,6 +201,7 @@
             { category: 'سفر', title: 'استخرجت فيزا بريطانيا بعد رفض مرتين', detail: 'تعلمت الأخطاء القاتلة في كشف الحساب والخطاب التعريفي. أعلمك كيف تقدم ملفك وتضمن القبول.', icon: '🇬🇧', name: 'نورة العلي', tag: 'فيزا' }
         ];
 
+        // --- التعديل هنا: دالة عرض الخبرات لتمرير اسم الخبير للشات ---
         function renderExperiences(data) {
             const grid = document.getElementById('experiences-grid');
             grid.innerHTML = '';
@@ -218,11 +218,17 @@
                         </div>
                         <div class="mt-8 pt-6 border-t border-slate-50 flex justify-between items-center">
                             <span class="text-[10px] font-black text-slate-400 uppercase tracking-tighter">بواسطة: ${exp.name}</span>
-                            <button onclick="window.location.href='chat.html'" class="bg-blue-900 text-white px-5 py-2 rounded-xl text-xs font-black shadow-lg hover:bg-orange-500 transition-colors">اطلب الشور</button>
+                            <button onclick="goToChat('${exp.name}')" class="bg-blue-900 text-white px-5 py-2 rounded-xl text-xs font-black shadow-lg hover:bg-orange-500 transition-colors">اطلب الشور</button>
                         </div>
                     </div>
                 `;
             });
+        }
+
+        // --- إضافة دالة التوجيه للشات ---
+        function goToChat(expertName) {
+            const encodedName = encodeURIComponent(expertName);
+            window.location.href = `chat.html?expert=${encodedName}`;
         }
 
         function filterExperiences(cat, btn) {
@@ -289,13 +295,10 @@
 
         function handleSignOut() { auth.signOut().then(() => location.reload()); }
 
-        // --- وظيفة إرسال طلبات الانضمام إلى Firestore ---
         async function handleExpertSubmit(event) {
             event.preventDefault();
             const status = document.getElementById('form-status');
             const btn = document.getElementById('submit-expert-btn');
-
-            // تجميع البيانات
             const expertData = {
                 name: document.getElementById('exp-name').value,
                 category: document.getElementById('exp-category').value,
@@ -303,25 +306,20 @@
                 detail: document.getElementById('exp-detail').value,
                 submittedAt: firebase.firestore.FieldValue.serverTimestamp()
             };
-
             btn.disabled = true;
             btn.innerText = "جاري إرسال طلبك...";
-
             try {
-                // الحفظ في كولكشن experts_requests
                 await db.collection("experts_requests").add(expertData);
-                
                 status.classList.remove('hidden');
                 btn.innerText = "تم الإرسال بنجاح ✅";
                 btn.classList.replace('bg-blue-900', 'bg-green-600');
                 event.target.reset();
-                
                 alert("رائع! تم حفظ طلبك وسنتواصل معك قريباً.");
             } catch (error) {
                 console.error("Error: ", error);
                 btn.disabled = false;
                 btn.innerText = "إرسال طلب الانضمام";
-                alert("حدث خطأ أثناء الإرسال. تأكد من إعدادات Firestore.");
+                alert("حدث خطأ أثناء الإرسال.");
             }
         }
 
