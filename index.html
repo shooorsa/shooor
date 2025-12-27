@@ -302,25 +302,25 @@
             });
         }
 
+        // دالة تسجيل الدخول المحدثة باستخدام Popup مع معالجة الأخطاء
         function loginWithGoogle() { 
             const provider = new firebase.auth.GoogleAuthProvider();
-            // استخدام تلميح لحل مشاكل النوافذ المنبثقة
             provider.setCustomParameters({ prompt: 'select_account' });
-            auth.signInWithRedirect(provider);
+            
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    console.log("تم تسجيل الدخول بنجاح!");
+                })
+                .catch((error) => {
+                    console.error("Login Error: ", error.message);
+                    // إذا فشل الـ Popup (مثلاً بسبب حظر المتصفح)، نستخدم الـ Redirect كحل بديل
+                    if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
+                        auth.signInWithRedirect(provider);
+                    } else {
+                        alert("حدث خطأ أثناء تسجيل الدخول: " + error.message);
+                    }
+                });
         }
-
-        // معالجة نتيجة إعادة التوجيه عند تحميل الصفحة
-        auth.getRedirectResult().then((result) => {
-            if (result.user) {
-                console.log("تم تسجيل الدخول بنجاح عبر Redirect");
-            }
-        }).catch((error) => {
-            if (error.code === 'auth/operation-not-allowed') {
-                alert("تأكد من تفعيل Google Sign-in في Firebase Console.");
-            } else {
-                console.error("Redirect Error: ", error);
-            }
-        });
 
         auth.onAuthStateChanged(user => {
             if (user) {
