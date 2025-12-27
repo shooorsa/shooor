@@ -304,9 +304,23 @@
 
         function loginWithGoogle() { 
             const provider = new firebase.auth.GoogleAuthProvider();
-            // استخدامsignInWithRedirect بدلاً من signInWithPopup لحل مشكلة إغلاق النافذة المفاجئ
+            // استخدام تلميح لحل مشاكل النوافذ المنبثقة
+            provider.setCustomParameters({ prompt: 'select_account' });
             auth.signInWithRedirect(provider);
         }
+
+        // معالجة نتيجة إعادة التوجيه عند تحميل الصفحة
+        auth.getRedirectResult().then((result) => {
+            if (result.user) {
+                console.log("تم تسجيل الدخول بنجاح عبر Redirect");
+            }
+        }).catch((error) => {
+            if (error.code === 'auth/operation-not-allowed') {
+                alert("تأكد من تفعيل Google Sign-in في Firebase Console.");
+            } else {
+                console.error("Redirect Error: ", error);
+            }
+        });
 
         auth.onAuthStateChanged(user => {
             if (user) {
