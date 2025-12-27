@@ -227,7 +227,21 @@
             });
         }
 
-        function loginWithGoogle() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
+        // --- وظيفة تسجيل الدخول عبر قوقل المصححة ---
+        function loginWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            provider.setCustomParameters({ prompt: 'select_account' });
+            auth.signInWithPopup(provider)
+                .then(() => {
+                    // التحديث يتم تلقائياً عبر onAuthStateChanged
+                })
+                .catch((error) => {
+                    console.error("خطأ قوقل:", error.message);
+                    if(error.code !== 'auth/popup-closed-by-user') {
+                        alert("حدث خطأ في الاتصال بقوقل: " + error.message);
+                    }
+                });
+        }
 
         auth.onAuthStateChanged(user => {
             if (user) {
