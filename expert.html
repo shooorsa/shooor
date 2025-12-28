@@ -6,72 +6,112 @@
     <title>بروفايل الخبير | شـــووور</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Tajawal', sans-serif; }</style>
 </head>
-<body class="bg-slate-50 text-slate-900 font-[Tajawal]">
+<body class="bg-slate-50 text-slate-900">
+
     <div class="max-w-md mx-auto bg-white min-h-screen shadow-lg relative">
-        <div id="profile-header-bg" class="h-32 bg-blue-900"></div>
+        <div class="h-32 bg-blue-900"></div>
         
         <div class="px-6 -mt-12 text-center">
             <div id="expert-icon" class="w-24 h-24 bg-white border-4 border-white rounded-full mx-auto flex items-center justify-center text-4xl shadow-md">
                 👤
             </div>
             <h1 id="expert-name" class="text-2xl font-black mt-4 text-blue-900 italic">جاري التحميل...</h1>
-            <div id="expert-tags" class="flex flex-wrap justify-center gap-2 mt-2">
-                </div>
+            <div id="expert-tags" class="flex flex-wrap justify-center gap-2 mt-2"></div>
         </div>
 
         <div class="p-8 space-y-6">
             <div class="bg-slate-50 p-6 rounded-[2rem] border border-slate-100 text-right">
-                <h3 class="font-black text-xs text-orange-500 mb-2 uppercase tracking-widest">عن الخبير والشور:</h3>
-                <p id="expert-detail" class="text-sm leading-relaxed text-slate-600 font-bold">
-                    تحميل تفاصيل التجربة...
-                </p>
+                <h3 class="font-black text-[10px] text-orange-500 mb-2 uppercase tracking-widest">عن الخبير والشور:</h3>
+                <p id="expert-detail" class="text-sm leading-relaxed text-slate-600 font-bold">جاري جلب التفاصيل...</p>
             </div>
 
-            <button onclick="goToChat()" class="block w-full bg-blue-900 text-white text-center py-5 rounded-2xl font-black shadow-xl hover:bg-blue-800 transition-all transform hover:scale-[1.02]">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-blue-50 p-4 rounded-2xl text-center">
+                    <p class="text-[9px] text-blue-400 font-black uppercase">قيمة الاستشارة</p>
+                    <p class="font-black text-blue-900">50 ر.س</p>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-2xl text-center">
+                    <p class="text-[9px] text-blue-400 font-black uppercase">مدة الجلسة</p>
+                    <p class="font-black text-blue-900">30 دقيقة</p>
+                </div>
+            </div>
+
+            <button id="request-btn" onclick="sendConsultationRequest()" class="w-full bg-blue-900 text-white py-5 rounded-2xl font-black shadow-xl hover:bg-orange-500 transition-all transform hover:scale-[1.02]">
                 اطلب الشور الآن
             </button>
             
-            <a href="index.html" class="block text-center text-slate-400 text-[10px] font-black uppercase tracking-widest">العودة للرئيسية</a>
+            <a href="index.html" class="block text-center text-slate-400 text-[10px] font-black uppercase tracking-widest mt-4">العودة للرئيسية</a>
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
     <script>
-        // محاكاة جلب البيانات (لاحقاً سيتم جلبها من Firestore)
+        const firebaseConfig = {
+            apiKey: "AIzaSyAZSFCf7piwKykf_klgGlzc4RkCXumNRUg",
+            authDomain: "shooor-app.firebaseapp.com",
+            projectId: "shooor-app",
+            storageBucket: "shooor-app.firebasestorage.app",
+            messagingSenderId: "356426973132",
+            appId: "1:356426973132:web:6353917bf13a64074d6769"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // جلب معرف الخبير من الرابط
+        const urlParams = new URLSearchParams(window.location.search);
+        const expertId = urlParams.get('id') || 'khaled'; 
+
+        // بيانات الخبراء (يمكنك لاحقاً نقلها بالكامل لـ Firestore)
         const expertsData = {
             "khaled": {
-                name: "خالد محمد",
-                tags: ["خبير بريطانيا", "مستشار قطارات", "لندن وأريافها"],
-                detail: "زرت لندن أكثر من 10 مرات، خبير في أماكن السكن العائلية، وتنسيق التنقل بالقطارات. أعطيك الشور في كيفية توفير ميزانية السفر.",
-                icon: "🇬🇧"
-            },
-            "turkey_expert": {
-                name: "أحمد العلي",
-                tags: ["خبير تركيا", "أسواق اسطنبول", "راعي غنم"],
-                detail: "عشت في الشمال التركي وأعرف خفايا القرى والأسواق الشعبية. أعلمك كيف تستمتع بتركيا بعيداً عن الاستغلال السياحي.",
-                icon: "🇹🇷"
+                name: "خالد الحسنين",
+                tags: ["خبير نفسية", "مستشار سفر", "تعافي"],
+                detail: "خضت تجربة التعافي النفسي وأساعدك في التخطيط لرحلات علاجية مريحة ونقل تجربة واقعية.",
+                icon: "🧠"
             }
         };
 
-        // دالة قراءة المعرف من الرابط (مثلاً expert.html?id=khaled)
-        const urlParams = new URLSearchParams(window.location.search);
-        const expertId = urlParams.get('id') || 'khaled';
         const data = expertsData[expertId];
-
         if (data) {
             document.getElementById('expert-name').innerText = data.name;
             document.getElementById('expert-detail').innerText = data.detail;
             document.getElementById('expert-icon').innerText = data.icon;
-            
-            // إضافة العناوين (Tags)
-            const tagsContainer = document.getElementById('expert-tags');
             data.tags.forEach(tag => {
-                tagsContainer.innerHTML += `<span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-[10px] font-black">#${tag}</span>`;
+                document.getElementById('expert-tags').innerHTML += `<span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-[9px] font-black">#${tag}</span>`;
             });
         }
 
-        function goToChat() {
-            window.location.href = `chat.html?expert=${expertId}`;
+        async function sendConsultationRequest() {
+            const user = auth.currentUser;
+            if (!user) {
+                alert("يرجى تسجيل الدخول أولاً.");
+                window.location.href = 'index.html#customer-register';
+                return;
+            }
+
+            const btn = document.getElementById('request-btn');
+            btn.disabled = true; btn.innerText = "جاري إرسال الطلب...";
+
+            try {
+                const requestRef = await db.collection("consultations").add({
+                    userId: user.uid,
+                    userName: user.displayName || user.phoneNumber || "مستخدم",
+                    expertName: data ? data.name : "خبير",
+                    status: "pending",
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                // التوجه لصفحة الانتظار الموحدة
+                window.location.href = `waiting.html?requestId=${requestRef.id}&expert=${encodeURIComponent(data.name)}`;
+            } catch (error) {
+                alert("حدث خطأ في الشبكة.");
+                btn.disabled = false; btn.innerText = "اطلب الشور الآن";
+            }
         }
     </script>
 </body>
