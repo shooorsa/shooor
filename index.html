@@ -11,6 +11,8 @@
         .logo-font { font-weight: 900; letter-spacing: -1px; }
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); }
         .category-btn.active { background-color: #1e3a8a !important; color: white !important; }
+        .experience-card { transition: all 0.3s ease; border: 2px solid transparent; }
+        .experience-card:hover { border-color: #f97316; transform: translateY(-5px); }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
@@ -73,7 +75,7 @@
             <div id="auth-container" class="text-center">
                 <h3 class="text-2xl font-black mb-8 text-blue-900 italic">سجل دخولك الآن</h3>
                 <div id="auth-options" class="space-y-4">
-                    <button onclick="loginWithGoogle()" class="w-full flex items-center justify-center gap-3 bg-white border-2 py-4 rounded-2xl font-bold hover:bg-slate-50 transition-all shadow-sm">
+                    <button id="google-login-btn" onclick="loginWithGoogle()" class="w-full flex items-center justify-center gap-3 bg-white border-2 py-4 rounded-2xl font-bold hover:bg-slate-50 transition-all shadow-sm">
                         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-6 h-6"> الدخول عبر Google
                     </button>
                     <div class="py-2 text-slate-400 text-[10px] font-black uppercase tracking-widest">أو عبر الجوال</div>
@@ -93,7 +95,7 @@
             <div id="user-profile" class="hidden text-center">
                 <div id="user-photo" class="w-20 h-20 rounded-full mx-auto mb-4 bg-blue-50 flex items-center justify-center text-2xl overflow-hidden shadow-inner border-4 border-white ring-4 ring-slate-100">👤</div>
                 <h3 id="display-name" class="text-xl font-black mb-6 text-blue-900 italic">أهلاً بك</h3>
-                <div class="bg-slate-900 p-8 rounded-[2.5rem] text-right text-white shadow-2xl relative overflow-hidden">
+                <div class="bg-slate-900 p-8 rounded-[2rem] text-right text-white shadow-2xl relative overflow-hidden">
                     <p class="text-blue-400 text-[10px] font-bold mb-1 uppercase tracking-widest">الرصيد المتاح</p>
                     <h2 class="text-4xl font-black mb-6">0.00 <span class="text-xs font-normal">ر.س</span></h2>
                     <button onclick="openRechargeModal()" class="w-full bg-orange-500 text-white py-4 rounded-2xl font-black shadow-lg hover:bg-orange-600 transition-all">+ شحن المحفظة</button>
@@ -134,7 +136,7 @@
                         <div>
                             <div class="flex justify-between items-start mb-4">
                                 <span class="text-4xl">${exp.icon}</span>
-                                <span class="text-[10px] bg-blue-50 text-blue-600 px-3 py-1 rounded-full font-black uppercase">#${exp.tag}</span>
+                                <span class="text-[10px] bg-blue-50 text-blue-600 px-3 py-1 rounded-full font-black uppercase tracking-widest">#${exp.tag}</span>
                             </div>
                             <h3 class="text-xl font-black text-blue-900 mb-3 leading-tight">${exp.title}</h3>
                             <p class="text-sm text-slate-500 font-bold leading-relaxed">${exp.detail}</p>
@@ -162,9 +164,10 @@
                     expertName: expertName, status: "pending", createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 window.location.href = `waiting.html?requestId=${requestRef.id}&expert=${encodeURIComponent(expertName)}`;
-            } catch (error) { alert("خطأ."); btn.disabled = false; btn.innerText = "اطلب الشور"; }
+            } catch (error) { alert("حدث خطأ."); btn.disabled = false; btn.innerText = "اطلب الشور"; }
         }
 
+        // --- نظام تسجيل الدخول المطور ---
         function loginWithGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
             provider.addScope('profile');
@@ -172,7 +175,18 @@
             auth.signInWithRedirect(provider);
         }
 
-        auth.getRedirectResult().catch((error) => { console.error("Error:", error.message); });
+        // معالجة النتيجة بعد العودة من Google
+        auth.getRedirectResult().then((result) => {
+            if (result.user) {
+                console.log("Logged in via Redirect:", result.user.displayName);
+            }
+        }).catch((error) => {
+            if (error.code === 'auth/invalid-action-code') {
+                console.error("The action is invalid, possibly session expired or double click.");
+            } else {
+                console.error("Login Error:", error.message);
+            }
+        });
 
         auth.onAuthStateChanged(user => {
             if (user) {
@@ -193,6 +207,19 @@
         function openRechargeModal() { document.getElementById('recharge-modal').style.display = 'flex'; }
         function closeRechargeModal() { document.getElementById('recharge-modal').style.display = 'none'; }
         function handleSignOut() { auth.signOut().then(() => location.reload()); }
+        
+        // الجوال
+        function setupRecaptcha() {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { size: 'invisible' });
+            const phone = "+966" + document.getElementById('phone-input').value;
+            auth.signInWithPhoneNumber(phone, window.recaptchaVerifier).then(res => {
+                confirmationResult = res;
+                document.getElementById('auth-options').classList.add('hidden');
+                document.getElementById('otp-section').classList.remove('hidden');
+            }).catch(e => { alert("خطأ: " + e.message); location.reload(); });
+        }
+
+        function verifyCode() { confirmationResult.confirm(document.getElementById('otp-input').value).then(() => location.reload()); }
 
         renderExperiences(allExperiences);
     </script>
