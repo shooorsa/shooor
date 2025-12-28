@@ -3,24 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بانتظار الموافقة | شـــووور</title>
+    <title>بانتظار قبول الشور | شـــووور</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <style>body { font-family: 'Tajawal', sans-serif; }</style>
 </head>
 <body class="bg-slate-50 flex items-center justify-center min-h-screen p-6">
 
-    <div class="max-w-md w-full bg-white p-10 rounded-[3rem] shadow-xl text-center border border-slate-100">
-        <div class="w-20 h-20 border-4 border-blue-900 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-        <h2 class="text-2xl font-black text-blue-900 mb-4 italic">جاري طلب الشور...</h2>
-        <p class="text-slate-500 font-bold text-sm mb-8 leading-relaxed">
-            لقد أرسلنا طلبك للخبير <span id="expert-name" class="text-orange-500">...</span>. يرجى الانتظار قليلاً ليقوم بقبول الجلسة والبدء بالدردشة.
-        </p>
-        <div class="p-4 bg-blue-50 rounded-2xl border border-blue-100 mb-6">
-            <p class="text-[10px] text-blue-400 font-black uppercase tracking-widest mb-1">حالة الطلب</p>
-            <p id="status-text" class="text-sm font-black text-blue-900">بانتظار رد الخبير...</p>
+    <div id="main-card" class="max-w-md w-full bg-white p-10 rounded-[3rem] shadow-xl text-center border border-slate-100">
+        <div id="waiting-ui">
+            <div class="w-20 h-20 border-4 border-blue-900 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+            <h2 class="text-2xl font-black text-blue-900 mb-4 italic">طلبك قيد المراجعة...</h2>
+            <p class="text-slate-500 font-bold text-sm mb-8 leading-relaxed">أرسلنا طلبك للخبير <span id="expert-name-display" class="text-orange-500">...</span>.</p>
         </div>
-        <button onclick="window.location.href='index.html'" class="text-[10px] text-slate-400 font-black uppercase tracking-widest underline">إلغاء والعودة للرئيسية</button>
+
+        <div id="payment-ui" class="hidden">
+            <div class="text-5xl mb-6">✅</div>
+            <h2 class="text-2xl font-black text-blue-900 mb-4 italic">تم قبول طلبك!</h2>
+            <p class="text-slate-500 font-bold text-sm mb-8">لبدء الدردشة الآن (30 دقيقة)، يرجى سداد الرسوم.</p>
+            <div class="bg-slate-900 p-6 rounded-2xl text-white mb-6">
+                <p class="text-blue-400 text-xs mb-1">رسوم الاستشارة</p>
+                <h3 class="text-3xl font-black">50.00 <span class="text-xs">ر.س</span></h3>
+            </div>
+            <button onclick="processPayment()" class="w-full bg-orange-500 text-white py-4 rounded-2xl font-black shadow-lg hover:scale-105 transition-all">ادفع وافتح الدردشة</button>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-slate-50">
+            <p id="status-badge" class="text-[10px] font-black text-blue-900 bg-blue-50 px-4 py-2 rounded-full inline-block uppercase italic underline">الحالة: بانتظار الخبير</p>
+        </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -38,27 +48,34 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        const params = new URLSearchParams(window.location.search);
-        const requestId = params.get('requestId');
-        const expert = params.get('expert');
+        const urlParams = new URLSearchParams(window.location.search);
+        const requestId = urlParams.get('requestId');
+        const expertName = urlParams.get('expert');
 
-        if (expert) document.getElementById('expert-name').innerText = expert;
+        if(expertName) document.getElementById('expert-name-display').innerText = expertName;
 
         if (requestId) {
             db.collection("consultations").doc(requestId).onSnapshot((doc) => {
                 if (doc.exists) {
-                    const status = doc.data().status;
-                    if (status === 'approved') {
-                        document.getElementById('status-text').innerText = "تم القبول! جاري التحويل...";
-                        setTimeout(() => {
-                            window.location.href = `chat.html?expert=${encodeURIComponent(expert)}&requestId=${requestId}`;
-                        }, 1000);
-                    } else if (status === 'rejected') {
-                        alert("عذراً، اعتذر الخبير عن قبول الجلسة حالياً.");
+                    const data = doc.data();
+                    if (data.status === 'approved') {
+                        document.getElementById('waiting-ui').classList.add('hidden');
+                        document.getElementById('payment-ui').classList.remove('hidden');
+                        document.getElementById('status-badge').innerText = "الحالة: بانتظار السداد";
+                    } else if (data.status === 'paid') {
+                        window.location.href = `chat.html?requestId=${requestId}&expert=${encodeURIComponent(expertName)}`;
+                    } else if (data.status === 'rejected') {
+                        alert("اعتذر الخبير حالياً.");
                         window.location.href = 'index.html';
                     }
                 }
             });
+        }
+
+        async function processPayment() {
+            try {
+                await db.collection("consultations").doc(requestId).update({ status: 'paid' });
+            } catch (error) { alert("خطأ في الدفع"); }
         }
     </script>
 </body>
